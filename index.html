@@ -95,6 +95,41 @@ table.stats td{padding:2px 10px 2px 0}
 .stick i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.6)}
 .loadscr{position:absolute;inset:0;background:#2c2c2c;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font:900 28px "Arial Black",Arial;z-index:9;gap:10px;text-shadow:3px 3px 0 #b8241b}
 .loadscr small{font:bold 13px Arial;color:#aaa;text-shadow:none}
+
+.adm{background:#ffd23f;color:#5a3f00;font-size:9px;font-weight:bold;padding:1px 4px;border-radius:2px;vertical-align:middle}
+table.form td{padding:4px 6px 4px 0}
+table.list{border-collapse:collapse;width:100%}table.list th,table.list td{border-bottom:1px solid #dde3ea;padding:5px 6px;text-align:left}table.list th{background:#eef3f9;font-size:11px}
+.motd{background:#e6f0ff;border:1px solid #8fb2e6;padding:8px 10px;margin-bottom:12px;color:#18325a}
+.launcher{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.lwin{width:380px;max-width:92vw;background:#f4f6f9;border:1px solid #333;box-shadow:0 8px 30px rgba(0,0,0,.5);font:12px Verdana}
+.ltitle{background:linear-gradient(#4a8be0,#1f56a8);color:#fff;font-weight:bold;padding:5px 8px}
+.lbody{padding:18px 20px;text-align:center}
+.llogo{font:900 24px "Arial Black",Arial;color:#1f56a8;text-shadow:2px 2px 0 #ffd23f;margin-bottom:12px}
+.lmsg{margin-bottom:8px;font-weight:bold;color:#333}
+.lbar{height:16px;border:1px solid #6b7c93;background:#fff;margin:0 0 8px;overflow:hidden}
+.lbar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,#36921b 0 10px,#4fb52b 10px 20px);transition:width .5s}
+.lbody .btn{margin-top:10px}
+#studio{position:fixed;inset:0;z-index:50;background:#d6dbe2;font:12px Verdana,sans-serif;user-select:none}
+#studio canvas{position:absolute;left:170px;right:240px;top:34px;bottom:22px;width:calc(100% - 410px)!important;height:calc(100% - 56px)!important}
+#studio .sbar{position:absolute;left:0;right:0;top:0;height:34px;background:linear-gradient(#f7f8fa,#d9dee6);border-bottom:1px solid #8a97a8;display:flex;align-items:center;gap:3px;padding:0 6px}
+#studio .slogo{color:#1f56a8;margin-right:10px;white-space:nowrap}
+#studio .sbar button{font:12px Verdana;border:1px solid #9aa6b5;background:linear-gradient(#fff,#e3e7ed);padding:3px 8px;border-radius:2px;cursor:pointer;white-space:nowrap}
+#studio .sbar button.on{background:#cfe0ff;border-color:#2b6bc6}
+#studio .sbar button.g{background:linear-gradient(#6fd14c,#36921b);color:#fff;border-color:#2b6b16;font-weight:bold}
+#studio .sep{width:1px;height:20px;background:#9aa6b5;margin:0 4px}
+#studio .smsg{margin-left:8px;color:#36921b;font-weight:bold}
+#studio .sexp,#studio .sprop{position:absolute;top:34px;bottom:22px;background:#f4f6f9;overflow:auto}
+#studio .sexp{left:0;width:170px;border-right:1px solid #8a97a8}
+#studio .sprop{right:0;width:240px;border-left:1px solid #8a97a8}
+#studio .sh{background:linear-gradient(#f2f6fb,#d4e0f0);border-bottom:1px solid #a9b4c2;padding:4px 7px;font-weight:bold;color:#18325a}
+#studio .slist div{padding:2px 8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#studio .slist div:hover{background:#e3ecf8}#studio .slist div.sel{background:#2b6bc6;color:#fff}
+#studio .spbody{padding:6px 8px}
+#studio .spbody label{display:block;margin:6px 0 2px;color:#444;font-weight:bold;font-size:11px}
+#studio .spbody input[type=number],#studio .spbody input[type=text],#studio .spbody textarea,#studio .spbody select{width:100%;font:12px Verdana;border:1px solid #8a99ad;padding:2px 4px}
+#studio .xyz{display:flex;gap:3px}#studio .xyz input{width:33%!important}
+#studio .pal{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}#studio .pal div{aspect-ratio:1;border:1px solid #555;cursor:pointer}
+#studio .shint{position:absolute;left:0;right:0;bottom:0;height:22px;background:#e8ebf0;border-top:1px solid #8a97a8;padding:3px 8px;color:#555;font-size:11px;white-space:nowrap;overflow:hidden}
 @media (pointer:coarse){.jumpbtn{display:block}.ghelp{display:none}}
 @media (max-width:600px){#hdr .logo{font-size:19px}#nav a{padding:6px 9px}}
 </style>
@@ -102,8 +137,8 @@ table.stats td{padding:2px 10px 2px 0}
 <body>
 <div id="site">
   <div id="hdr"><div class="logo" onclick="location.hash='home'"><span id="ownerName">Steven</span>'s Brickworld</div>
-    <div class="right">Logged in as <b id="hdrName">Steven</b><br><span class="studs"><i></i><span id="hdrStuds">0</span> Studs</span></div></div>
-  <div id="nav"><a href="#home" data-p="home">Home</a><a href="#games" data-p="games">Games</a><a href="#catalog" data-p="catalog">Catalog</a><a href="#avatar" data-p="avatar">Avatar</a><a href="#profile" data-p="profile">Profile</a></div>
+    <div class="right" id="hdrRight"></div></div>
+  <div id="nav"></div>
   <div id="page"></div>
   <div id="foot">Steven's Brickworld · a private fan-made brick game · Not affiliated with any other game company</div>
 </div>
@@ -150,6 +185,9 @@ const ITEMS=[
  {id:'hat_bucket',type:'hat',name:'Bucket Hat',price:20},
  {id:'hat_brick',type:'hat',name:'Brick Head',price:35},
  {id:'hat_wizard',type:'hat',name:'Wizard Hat',price:50},
+ {id:'hat_chef',type:'hat',name:'Chef Hat',price:25},
+ {id:'hat_fedora',type:'hat',name:'Classic Fedora',price:35},
+ {id:'hat_pumpkin',type:'hat',name:'Pumpkin Head',price:80},
  {id:'hat_halo',type:'hat',name:'Golden Halo',price:120},
  {id:'hat_crown',type:'hat',name:'Golden Crown',price:150},
  {id:'face_smile',type:'face',name:'Smile',price:0},
@@ -159,6 +197,9 @@ const ITEMS=[
  {id:'face_silly',type:'face',name:'Silly',price:25},
  {id:'face_grin',type:'face',name:'Big Grin',price:30},
  {id:'face_cool',type:'face',name:'Cool Shades',price:35},
+ {id:'face_smirk',type:'face',name:'Smirk',price:15},
+ {id:'face_angry',type:'face',name:'Angry',price:25},
+ {id:'face_star',type:'face',name:'Starry Eyes',price:40},
  {id:'shirt_none',type:'shirt',name:'Plain',price:0},
  {id:'shirt_star',type:'shirt',name:'Star Tee',price:20},
  {id:'shirt_heart',type:'shirt',name:'Heart Tee',price:20},
@@ -171,19 +212,69 @@ const ITEM=Object.fromEntries(ITEMS.map(i=>[i.id,i]));
 const PALETTE=['#f2f3f3','#e5e4df','#a3a2a5','#635f62','#1b2a35','#111111','#f5cd30','#ffcc99','#ead2b4','#c69c6d','#8d5524','#7c5c46','#5a4c42','#c4281c','#ff0000','#da8541','#e29b40','#ffd23f','#a4bd47','#4b974b','#287f47','#00a2ff','#0d69ac','#2b3990','#6b327c','#b480ff','#ff66cc','#ff98dc','#9ff3e9','#1abc9c','#e8bac8','#ffffff'];
 
 // ================= save data =================
-const KEY='brickworld_save_v1';
-const DEFAULT={name:'Steven',studs:100,owned:['hat_none','face_smile','shirt_none'],
+const KEY='brickworld_save_v1',ACC='brickworld_accounts_v1';
+const DEFAULT={name:'',studs:100,owned:['hat_none','face_smile','shirt_none'],
   av:{head:'#f5cd30',torso:'#0d69ac',larm:'#f5cd30',rarm:'#f5cd30',lleg:'#a4bd47',rleg:'#a4bd47',hat:'hat_none',face:'face_smile',shirt:'shirt_none'},
   lastDaily:0,visits:{},wins:{},joined:Date.now(),played:0};
-let data;
-try{data=JSON.parse(localStorage.getItem(KEY));}catch(e){}
-data=Object.assign(JSON.parse(JSON.stringify(DEFAULT)),data||{});
-data.av=Object.assign({},DEFAULT.av,data.av);
-function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+// ---- accounts (saved in this browser; passwords are stored hashed) ----
+const freshSave=n=>Object.assign(JSON.parse(JSON.stringify(DEFAULT)),{name:n,joined:Date.now()});
+let A=null;try{A=JSON.parse(localStorage.getItem(ACC));}catch(e){}
+A=Object.assign({users:{},session:null,motd:'',settings:{},places:{}},A||{});
+A.settings=Object.assign({aiChat:true,activity:1,mute:false},A.settings);
+let legacy=null;try{legacy=JSON.parse(localStorage.getItem(KEY));}catch(e){}
+let data=null;
+const cur=()=>A.session&&A.users[A.session]?A.session:null;
+const role=()=>cur()?A.users[cur()].role:null;
+const isAdmin=()=>role()==='owner'||role()==='admin';
+const isOwner=()=>role()==='owner';
+function saveAll(){try{localStorage.setItem(ACC,JSON.stringify(A));}catch(e){}}
+function save(){if(cur())A.users[cur()].save=data;saveAll();}
+function loadUser(){
+  if(!cur()){data=freshSave('Guest');return;}
+  const u=A.users[cur()];data=Object.assign(freshSave(cur()),u.save||{});data.av=Object.assign({},DEFAULT.av,data.av);u.save=data;
+}
+async function hashPw(name,pw){const txt='brickworld|'+name.toLowerCase()+'|'+pw;
+  try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+  catch(e){let h=0;for(const c of txt)h=(h*131+c.charCodeAt(0))>>>0;return 'x'+h.toString(16);}}
 let dailyMsg='';
-if(Date.now()-data.lastDaily>20*3600e3){data.studs+=25;data.lastDaily=Date.now();dailyMsg='Daily bonus! You got <b>25 Studs</b> for visiting today.';save();}
-function updateHdr(){$('#hdrStuds').textContent=data.studs;$('#hdrName').textContent=data.name;$('#ownerName').textContent=data.name;document.title=data.name+"'s Brickworld";document.querySelectorAll('.liveStuds').forEach(e=>e.textContent=data.studs);}
-function addStuds(n){data.studs+=n;save();updateHdr();}
+function onLogin(){loadUser();if(Date.now()-data.lastDaily>20*3600e3){data.studs+=25;data.lastDaily=Date.now();dailyMsg='Daily bonus! You got <b>25 Studs</b> for visiting today.';}save();}
+loadUser();if(cur())onLogin();
+function worldName(){const o=Object.values(A.users).find(u=>u.role==='owner');return (o&&o.save&&o.save.name)||'Steven';}
+function signOut(){save();A.session=null;saveAll();loadUser();location.hash='login';}
+
+// ---- sounds (made with the Web Audio API, all original) ----
+const SFX=(()=>{
+  let ctx=null;
+  const ac=()=>{if(A.settings.mute)return null;if(!ctx){try{ctx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}}if(ctx.state==='suspended')ctx.resume();return ctx;};
+  function tone(f,dur,type='sine',vol=.15,slide=0,delay=0){const c=ac();if(!c)return;const t=c.currentTime+delay;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.linearRampToValueAtTime(Math.max(30,f+slide),t+dur);
+    g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g).connect(c.destination);o.start(t);o.stop(t+dur+.02);}
+  function noise(dur,vol=.2,freq=800,delay=0){const c=ac();if(!c)return;const t=c.currentTime+delay;const n=Math.floor(c.sampleRate*dur),buf=c.createBuffer(1,n,c.sampleRate),d=buf.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);
+    const src=c.createBufferSource();src.buffer=buf;const f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=freq;const g=c.createGain();g.gain.value=vol;src.connect(f).connect(g).connect(c.destination);src.start(t);}
+  return{
+    step:(v=1)=>noise(.05,.12*v,600),
+    jump:(v=1)=>tone(260,.16,'square',.05*v,420),
+    land:(v=1)=>noise(.09,.22*v,260),
+    die:(v=1)=>{noise(.3,.28*v,1400);tone(300,.35,'sawtooth',.06*v,-220);noise(.2,.2*v,500,.12);},
+    coin:()=>{tone(988,.08,'square',.05);tone(1319,.18,'square',.05,0,.07);},
+    chat:(v=1)=>tone(1100,.05,'sine',.05*v),
+    click:()=>tone(640,.04,'square',.03),
+    win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.2,'square',.06,0,i*.11)),
+    place:()=>{noise(.06,.2,900);tone(180,.06,'square',.04);},
+  };
+})();
+function updateHdr(){
+  const wn=worldName();$('#ownerName').textContent=wn;document.title=wn+"'s Brickworld";
+  const r=$('#hdrRight');
+  if(cur()){
+    r.innerHTML=`Logged in as <b>${esc(data.name)}</b>${isAdmin()?` <span class="adm">${isOwner()?'OWNER':'ADMIN'}</span>`:''} · <a id="signout" style="color:#fff;text-decoration:underline">Sign out</a><br><span class="studs"><i></i><span class="liveStuds">${data.studs}</span> Studs</span> <a id="mutebtn" title="Sound on/off" style="text-decoration:none">${A.settings.mute?'🔇':'🔊'}</a>`;
+    $('#signout').onclick=signOut;$('#mutebtn').onclick=()=>{A.settings.mute=!A.settings.mute;saveAll();updateHdr();};
+  }else r.innerHTML=`<a href="#login" style="color:#fff;font-weight:bold">Sign in</a> · <a href="#signup" style="color:#fff">Sign up</a>`;
+  const links=cur()?[['home','Home'],['games','Games'],['catalog','Catalog'],['avatar','Avatar'],['studio','Studio'],['profile','Profile']].concat(isAdmin()?[['admin','Admin']]:[]):[['login','Sign in'],['signup','Sign up']];
+  const cur_=(location.hash||'#home').slice(1);
+  $('#nav').innerHTML=links.map(([k,t])=>`<a href="#${k}" data-p="${k}" class="${k===cur_?'on':''}">${t}</a>`).join('');
+  document.querySelectorAll('.liveStuds').forEach(e=>e.textContent=data.studs);
+}
+function addStuds(n){data.studs+=n;save();updateHdr();if(n>0)SFX.coin();}
 
 // ================= textures =================
 const studImg=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');
@@ -205,6 +296,9 @@ function drawFace(g,id){ // on 256x128 space, face centered at x128
     case 'face_sleepy':g.lineWidth=7;g.beginPath();g.arc(104,44,11,0.15*Math.PI,0.85*Math.PI);g.stroke();g.beginPath();g.arc(152,44,11,0.15*Math.PI,0.85*Math.PI);g.stroke();g.beginPath();g.moveTo(116,92);g.lineTo(140,92);g.stroke();
       g.font='bold 22px Arial';g.fillText('z',182,32);g.font='bold 15px Arial';g.fillText('z',198,18);break;
     case 'face_silly':eye(104,48);eye(152,48);smile();g.fillStyle='#e0455a';g.beginPath();g.ellipse(140,98,11,14,0,0,Math.PI);g.fill();break;
+    case 'face_smirk':eye(104,48);eye(152,48);g.lineWidth=6;g.beginPath();g.moveTo(104,86);g.quadraticCurveTo(140,96,160,74);g.stroke();break;
+    case 'face_angry':g.lineWidth=6;g.beginPath();g.moveTo(88,28);g.lineTo(116,40);g.moveTo(168,28);g.lineTo(140,40);g.stroke();eye(104,54,6,10);eye(152,54,6,10);g.beginPath();g.arc(128,108,24,1.15*Math.PI,1.85*Math.PI);g.stroke();break;
+    case 'face_star':{const star=(x,y,r)=>{g.beginPath();for(let i=0;i<10;i++){const rr=i%2?r*.45:r,a=-Math.PI/2+i*Math.PI/5;g.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr);}g.closePath();g.fill();};star(102,46,15);star(154,46,15);smile(36,58);break;}
     default:eye(104,48);eye(152,48);smile();
   }
 }
@@ -237,6 +331,10 @@ function hatMesh(id){
     case 'hat_cone':add(new THREE.ConeGeometry(.62,1.7,20),0xff7a1a,0,6.05,0);add(new THREE.CylinderGeometry(.42,.5,.25,20),0xffffff,0,5.95,0);add(new THREE.BoxGeometry(1.6,.15,1.6),0xff7a1a,0,5.27,0);break;
     case 'hat_phones':add(new THREE.TorusGeometry(.72,.08,8,24,Math.PI),0x222222,0,4.75,0);add(new THREE.CylinderGeometry(.3,.3,.22,16),0x00a2ff,-.72,4.6,0,0,0,Math.PI/2);add(new THREE.CylinderGeometry(.3,.3,.22,16),0x00a2ff,.72,4.6,0,0,0,Math.PI/2);break;
     case 'hat_viking':add(new THREE.SphereGeometry(.68,20,10,0,7,0,Math.PI/2),0x9aa0a6,0,5.05,0);add(new THREE.ConeGeometry(.16,.8,10),0xf2f3f3,-.75,5.5,0,0,0,.6);add(new THREE.ConeGeometry(.16,.8,10),0xf2f3f3,.75,5.5,0,0,0,-.6);break;
+    case 'hat_chef':{add(new THREE.CylinderGeometry(.6,.6,.5,20),0xffffff,0,5.42,0);const m=add(new THREE.SphereGeometry(.72,20,12),0xffffff,0,5.95,0);m.scale.y=.65;break;}
+    case 'hat_fedora':add(new THREE.CylinderGeometry(.48,.6,.55,20),0x4a3b2a,0,5.45,0);add(new THREE.CylinderGeometry(1.0,1.0,.06,24),0x4a3b2a,0,5.2,0);add(new THREE.CylinderGeometry(.585,.6,.13,20),0x111111,0,5.27,0);break;
+    case 'hat_pumpkin':{const m=add(new THREE.SphereGeometry(.88,20,14),0xff7a1a,0,4.66,0);m.scale.y=.86;add(new THREE.CylinderGeometry(.08,.12,.35,8),0x3d7a1a,0,5.5,0);
+      for(const x of[-.3,.3])add(new THREE.ConeGeometry(.14,.2,3),0x1a0d00,x,4.85,.78,Math.PI/2);add(new THREE.BoxGeometry(.6,.14,.1),0x1a0d00,0,4.42,.8);break;}
     case 'hat_beanie':add(new THREE.SphereGeometry(.68,20,10,0,7,0,Math.PI/2),0x2b7de9,0,5.02,0);add(new THREE.CylinderGeometry(.69,.69,.22,20),0x1d4d92,0,5.05,0);add(new THREE.SphereGeometry(.18,10,8),0xffffff,0,5.75,0);break;
     case 'hat_bucket':add(new THREE.CylinderGeometry(.5,.66,.55,20),0xb9a26b,0,5.38,0);add(new THREE.CylinderGeometry(.95,.95,.06,20),0xb9a26b,0,5.12,0);add(new THREE.CylinderGeometry(.67,.67,.12,20),0x6b5a3a,0,5.18,0);break;
     case 'hat_brick':{add(new THREE.BoxGeometry(1.5,.6,1.5),0xc4281c,0,5.5,0);for(const x of[-.37,.37])for(const z of[-.37,.37])add(new THREE.CylinderGeometry(.22,.22,.18,14),0xc4281c,x,5.89,z);break;}
@@ -308,6 +406,7 @@ function gameThumb(id,w=360,h=220){
     g.fillStyle='rgba(255,255,255,.12)';for(let y=h*.58;y<h;y+=10)for(let x=(y/10%2)*8;x<w;x+=16){g.beginPath();g.arc(x,y,3,0,7);g.fill();}
     [[60,.36,46,'#2b7de9'],[60,.47,30,'#c0392b'],[250,.40,40,'#ffd23f'],[290,.45,34,'#4b974b']].forEach(([x,y,s,col])=>{g.fillStyle=col;g.fillRect(x,h*y,s,s);g.fillStyle='rgba(0,0,0,.2)';g.fillRect(x,h*y+s-6,s,6);});
     figure(g,170,h*.40,'#0d69ac');figure(g,205,h*.42,'#c4281c');figure(g,140,h*.44,'#6b327c');}
+  else if(id!=='obby'){g.fillStyle='#7d7d7d';g.fillRect(0,h*.6,w,h*.4);g.fillStyle='#fff';g.font='bold 22px Verdana';g.textAlign='center';g.fillText((allPlaces()[id]||{}).name||'Place',w/2,h*.35);g.font='12px Verdana';g.fillText('Play it to make a thumbnail',w/2,h*.48);}
   else{const cols=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#1abc9c','#3498db','#9b59b6'];cols.forEach((col,i)=>{const x=20+i*48,y=h*.8-i*20;g.fillStyle=col;g.fillRect(x,y,40,12);g.fillStyle='rgba(0,0,0,.25)';g.fillRect(x,y+8,40,4);});
     g.fillStyle='#ff2020';g.fillRect(140,h*.72,44,6);figure(g,92,h*.55,'#0d69ac');g.fillStyle='#ffd23f';g.font='900 28px Arial Black,Arial';g.fillText('OBBY',w-120,46);}
   return c;
@@ -323,17 +422,29 @@ const BOT_NAMES=['blockyben','starlight_kat','turbo_toast','mintyfresh09','capta
 // consistent "friends" with fixed looks
 const FRIENDS=BOT_NAMES.slice(0,8).map((n,i)=>{const r=mulberry32(i*977+5);const saveR=Math.random;Math.random=r;const look=randomLook();Math.random=saveR;return{name:n,look};});
 const friendLook=n=>{const f=FRIENDS.find(f=>f.name===n);return f?f.look:null;};
+const allPlaces=()=>Object.assign({},PLACES,A.places);
+function hashStr(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619)>>>0;return h;}
+// AI players hop on and off on their own schedules. Each one has its own sessions, so the friends list and the servers agree.
+const SLOT=7*60*1000;
+function presence(name,t=Date.now()){
+  const h=hashStr(name),slot=Math.floor((t+h%SLOT)/SLOT);
+  const r=mulberry32(h^Math.imul(slot,2654435761|0))();
+  const hr=new Date(t).getHours();
+  const base=(hr>=15&&hr<23?.62:hr>=8&&hr<15?.42:.2)*(A.settings.activity||1);
+  if(r>=base)return null;
+  const ids=Object.keys(allPlaces());const w=ids.map(id=>id==='hangout'?3:id==='obby'?2:1.2);
+  let x=mulberry32(h+Math.imul(slot,7919))()*w.reduce((a,b)=>a+b,0);
+  for(let i=0;i<ids.length;i++){x-=w[i];if(x<0)return ids[i];}return ids[0];
+}
 
 // ================= site pages =================
 let preview=null,game=null;
 function setNav(p){document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.p===p));}
-function friendsOnline(){ // stable-ish per 10 minutes
-  const r=mulberry32(Math.floor(Date.now()/600000));
-  return FRIENDS.map(f=>({...f,where:r()<.35?null:(r()<.6?'hangout':'obby')}));
-}
+function friendsOnline(){return FRIENDS.map(f=>({...f,where:presence(f.name)}));}
 function pageHome(){
   const fr=friendsOnline();
   page.innerHTML=`
+  ${A.motd?`<div class="motd">📢 <b>Message from the admins:</b> ${esc(A.motd)}</div>`:''}
   ${dailyMsg?`<div class="banner">🎉 ${dailyMsg}</div>`:''}
   <div class="cols"><div class="l">
     <div class="box"><h2>Hello, ${esc(data.name)}!</h2><div class="in" style="display:flex;gap:14px;align-items:center">
@@ -344,33 +455,33 @@ function pageHome(){
     <div class="box"><h2>Recently Played</h2><div class="in" style="display:flex;gap:10px;flex-wrap:wrap" id="recent"></div></div>
   </div><div class="r">
     <div class="box"><h2>Friends (${fr.length})</h2><div class="in friends">${fr.map(f=>`<div class="friend"><img src="${headThumb(f.look)}"><div>${esc(f.name)}</div>
-      ${f.where?`<div class="st">● In ${esc(PLACES[f.where].name.split(' ').slice(-1)[0])}</div><a class="small" data-join="${f.where}" data-f="${esc(f.name)}">Join</a>`:'<div class="small">Offline</div>'}</div>`).join('')}</div></div>
+      ${f.where?`<div class="st">● In ${esc(allPlaces()[f.where].name.split(' ').slice(-1)[0])}</div><a class="small" data-join="${f.where}" data-f="${esc(f.name)}">Join</a>`:'<div class="small">Offline</div>'}</div>`).join('')}</div></div>
     <div class="box"><h2>Brickworld News</h2><div class="in"><ul class="news" style="padding-left:16px;margin:0">
       <li><b>NEW!</b> The Rainbow Sky Obby is open. Can you beat all 36 stages?</li>
       <li>The Catalog has new items, including the Golden Crown.</li>
       <li>The Avatar page now has Body Colors. Paint every part!</li></ul></div></div>
   </div></div>`;
-  const rec=$('#recent');const ids=Object.keys(PLACES).sort((a,b)=>(data.visits[b]||0)-(data.visits[a]||0));
+  const rec=$('#recent');const ids=Object.keys(allPlaces()).sort((a,b)=>(data.visits[b]||0)-(data.visits[a]||0));
   ids.forEach(id=>rec.appendChild(gameCard(id)));
   page.querySelectorAll('[data-join]').forEach(a=>a.onclick=()=>{joinFriend=a.dataset.f;location.hash='play-'+a.dataset.join;});
 }
 let joinFriend=null;
 function gameCard(id){
-  const p=PLACES[id];const d=document.createElement('div');d.className='gcard';
+  const p=allPlaces()[id];const d=document.createElement('div');d.className='gcard';
   const cv=gameThumb(id);cv.onclick=()=>location.hash='play-'+id;
   d.appendChild(cv);
-  d.insertAdjacentHTML('beforeend',`<div class="nm"><a href="#play-${id}">${esc(p.name)}</a></div><div class="meta">by ${esc(data.name)} · Your visits: ${data.visits[id]||0}${data.wins[id]?' · Beaten '+data.wins[id]+'×':''}</div><a class="btn green" href="#play-${id}">▶ Play</a>`);
+  d.insertAdjacentHTML('beforeend',`<div class="nm"><a href="#play-${id}">${esc(p.name)}</a></div><div class="meta">by ${esc(p.creator||worldName())} · Your visits: ${data.visits[id]||0}${data.wins[id]?' · Beaten '+data.wins[id]+'×':''}</div><a class="btn green" href="#play-${id}">▶ Play</a>`);
   return d;
 }
 function pageGames(){
   page.innerHTML=`<div class="box"><h2>Games</h2><div class="in" id="glist"></div></div>`;
   const gl=$('#glist');
-  Object.keys(PLACES).forEach(id=>{
-    const p=PLACES[id];const row=document.createElement('div');row.style.cssText='display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px dotted #c3cbd6;flex-wrap:wrap';
+  Object.keys(allPlaces()).forEach(id=>{
+    const p=allPlaces()[id];const row=document.createElement('div');row.style.cssText='display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px dotted #c3cbd6;flex-wrap:wrap';
     const cv=gameThumb(id);cv.style.cssText='width:260px;border:1px solid #9aa6b5;cursor:pointer';cv.onclick=()=>location.hash='play-'+id;row.appendChild(cv);
     row.insertAdjacentHTML('beforeend',`<div style="flex:1;min-width:200px"><div style="font-size:16px;font-weight:bold;margin-bottom:4px"><a href="#play-${id}">${esc(p.name)}</a></div>
-      <div class="small" style="margin-bottom:8px">Creator: ${esc(data.name)} · Your visits: ${data.visits[id]||0} · Max AI players: ${p.maxAI}</div>
-      <p>${esc(p.desc)}</p><a class="btn green big" href="#play-${id}">▶ Play</a></div>`);
+      <div class="small" style="margin-bottom:8px">Creator: ${esc(p.creator||worldName())} · Your visits: ${data.visits[id]||0} · Playing now: ${BOT_NAMES.filter(n=>presence(n)===id).length}</div>
+      <p>${esc(p.desc||'A place built in Brickworld Studio.')}</p><a class="btn green big" href="#play-${id}">▶ Play</a></div>`);
     gl.appendChild(row);
   });
 }
@@ -445,7 +556,7 @@ function pageProfile(){
   const own=data.owned.filter(id=>ITEM[id]&&ITEM[id].price>0);
   page.innerHTML=`<div class="cols"><div class="r"><div class="box"><h2>${esc(data.name)}</h2><div class="in" style="text-align:center">
     <img src="${avatarThumb(data.av)}" width="200" height="200" style="border:1px solid #c3cbd6;background:#e9edf2"><br>
-    <div style="margin-top:8px">Username: <input class="txt" id="uname" maxlength="20" value="${esc(data.name)}"> <a class="btn" id="saveName">Save</a></div>
+    <div style="margin-top:8px">Display name: <input class="txt" id="uname" maxlength="20" value="${esc(data.name)}"> <a class="btn" id="saveName">Save</a></div>
     <div class="small" id="nameMsg"></div></div></div></div>
   <div class="l"><div class="box"><h2>Statistics</h2><div class="in"><table class="stats">
     <tr><td>Joined:</td><td>${new Date(data.joined).toLocaleDateString()}</td></tr>
@@ -456,22 +567,305 @@ function pageProfile(){
   <div class="box"><h2>Inventory (${own.length})</h2><div class="in"><div class="grid">${own.map(id=>`<div class="card"><img src="${itemThumb(ITEM[id])}"><div class="nm">${esc(ITEM[id].name)}</div></div>`).join('')||'Nothing yet. Visit the <a href="#catalog">Catalog</a>!'}</div></div></div>
   <div class="box"><h2>Save data</h2><div class="in"><p style="margin-top:0">Your avatar, Studs and items are saved in this browser only. If you clear your browser data they'll reset.</p><a class="btn gray" id="resetAll">Reset everything</a> <span class="small" id="resetMsg"></span></div></div></div></div>`;
   $('#saveName').onclick=()=>{const v=$('#uname').value.trim().replace(/[^A-Za-z0-9_ ]/g,'').slice(0,20);if(v.length<3){$('#nameMsg').textContent='Name must be at least 3 letters.';return;}data.name=v;save();updateHdr();$('#nameMsg').textContent='Saved!';};
-  let armed=false;$('#resetAll').onclick=()=>{if(!armed){armed=true;$('#resetMsg').textContent='Click again to really reset.';return;}data=JSON.parse(JSON.stringify(DEFAULT));data.joined=Date.now();save();updateHdr();pageProfile();};
+  let armed=false;$('#resetAll').onclick=()=>{if(!armed){armed=true;$('#resetMsg').textContent='Click again to really reset.';return;}data=freshSave(cur());save();updateHdr();pageProfile();};
 }
 
+function pageAuth(mode){
+  const first=!Object.keys(A.users).length;if(first)mode='signup';
+  page.innerHTML=`<div style="max-width:400px;margin:30px auto"><div class="box"><h2>${mode==='login'?'Sign in to Brickworld':first?'Create the Owner account':'Create an account'}</h2><div class="in">
+   ${first?'<p style="margin-top:0">This is the first account, so it becomes the <b>Owner</b> with full admin powers.</p>':''}
+   <table class="form"><tr><td>Username:</td><td><input class="txt" id="au" maxlength="20" autocomplete="username"></td></tr>
+   <tr><td>Password:</td><td><input class="txt" id="ap" type="password" autocomplete="${mode==='login'?'current-password':'new-password'}"></td></tr>
+   ${mode==='signup'?'<tr><td>Confirm:</td><td><input class="txt" id="ap2" type="password" autocomplete="new-password"></td></tr>':''}</table>
+   <div id="amsg" style="color:#b8241b;margin:6px 0;min-height:15px"></div>
+   <a class="btn green" id="ago">${mode==='login'?'Sign in':'Sign up'}</a>
+   ${first?'':mode==='login'?' &nbsp; New here? <a href="#signup">Sign up</a>':' &nbsp; Have an account? <a href="#login">Sign in</a>'}
+   <p class="small">Accounts are saved only in this browser. Don't use a password you use for anything else.</p></div></div></div>`;
+  const msg=t=>$('#amsg').textContent=t;
+  const go=async()=>{
+    const u=$('#au').value.trim(),pw=$('#ap').value;
+    if(mode==='signup'){
+      if(!/^[A-Za-z0-9_]{3,20}$/.test(u))return msg('Username: 3-20 letters, numbers or _');
+      if(Object.keys(A.users).some(k=>k.toLowerCase()===u.toLowerCase())||BOT_NAMES.includes(u.toLowerCase()))return msg('That username is taken.');
+      if(pw.length<4)return msg('Password must be at least 4 characters.');
+      if(pw!==$('#ap2').value)return msg("Passwords don't match.");
+      let sv=freshSave(u);
+      if(first&&legacy&&!A.legacyUsed){sv=Object.assign(sv,legacy,{name:u});A.legacyUsed=true;}
+      A.users[u]={hash:await hashPw(u,pw),role:first?'owner':'player',created:Date.now(),save:sv};A.session=u;
+    }else{
+      const k=Object.keys(A.users).find(k=>k.toLowerCase()===u.toLowerCase());
+      if(!k||A.users[k].hash!==await hashPw(k,pw))return msg('Wrong username or password.');
+      if(A.users[k].banned)return msg('This account is banned.');
+      A.session=k;
+    }
+    onLogin();saveAll();location.hash='home';
+  };
+  $('#ago').onclick=go;page.querySelectorAll('input').forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')go();});
+  setTimeout(()=>{const f=$('#au');f&&f.focus();},50);
+}
+function pageAdmin(){
+  if(!isAdmin()){location.hash='home';return;}
+  const users=Object.entries(A.users);
+  page.innerHTML=`<div class="box"><h2>⭐ Admin Panel</h2><div class="in">
+    <p style="margin-top:0">You are ${isOwner()?'the <b>Owner</b>':'an <b>Admin</b>'}. In any game, type <b>:cmds</b> in chat to see admin commands.</p>
+    <b>Message of the day</b> (shown on everyone's home page)<br>
+    <input class="txt" id="motd" style="width:70%" maxlength="160" value="${esc(A.motd||'')}"> <a class="btn" id="motdSave">Save</a> <a class="btn gray" id="motdClear">Clear</a></div></div>
+  <div class="box"><h2>AI Players</h2><div class="in">
+    <label><input type="checkbox" id="aiChat" ${A.settings.aiChat?'checked':''}> Smart AI conversations (uses Claude when this page runs on Claude)</label><br><br>
+    How busy is Brickworld? <select id="activity">${[[.5,'Quiet'],[1,'Normal'],[1.5,'Busy']].map(([v,t])=>`<option value="${v}" ${+A.settings.activity===v?'selected':''}>${t}</option>`).join('')}</select>
+    <div class="small">AI players hop on and off by themselves. "Busy" means more of them are online at once.</div></div></div>
+  <div class="box"><h2>Accounts (${users.length})</h2><div class="in"><table class="list"><tr><th>Username</th><th>Role</th><th>Studs</th><th>Joined</th><th></th></tr>
+    ${users.map(([k,u])=>`<tr><td>${esc(k)}${k===cur()?' (you)':''}${u.banned?' <b style="color:#b8241b">BANNED</b>':''}</td><td>${u.role}</td><td>${u.save?u.save.studs:0}</td><td>${new Date(u.created||Date.now()).toLocaleDateString()}</td>
+    <td><a class="btn" data-give="${esc(k)}">+100 Studs</a>
+    ${isOwner()&&u.role!=='owner'?`<a class="btn gray" data-role="${esc(k)}">${u.role==='admin'?'Remove admin':'Make admin'}</a> <a class="btn gray" data-ban="${esc(k)}">${u.banned?'Unban':'Ban'}</a> <a class="btn gray" data-del="${esc(k)}">Delete</a>`:''}</td></tr>`).join('')}
+    </table><div class="small" id="admMsg" style="margin-top:6px"></div></div></div>
+  ${isOwner()?`<div class="box"><h2>Owner Tools</h2><div class="in"><a class="btn" id="unlockAll">Unlock every catalog item for me</a> <a class="btn" id="give1k">Give me 1,000 Studs</a></div></div>`:''}`;
+  $('#motdSave').onclick=()=>{A.motd=$('#motd').value.trim();saveAll();$('#motdSave').textContent='Saved!';};
+  $('#motdClear').onclick=()=>{A.motd='';saveAll();pageAdmin();};
+  $('#aiChat').onchange=e=>{A.settings.aiChat=e.target.checked;saveAll();};
+  $('#activity').onchange=e=>{A.settings.activity=+e.target.value;saveAll();};
+  page.querySelectorAll('[data-give]').forEach(b=>b.onclick=()=>{const u=A.users[b.dataset.give];if(!u.save)u.save=freshSave(b.dataset.give);u.save.studs+=100;if(b.dataset.give===cur())data=u.save;saveAll();updateHdr();pageAdmin();});
+  page.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{const u=A.users[b.dataset.role];u.role=u.role==='admin'?'player':'admin';saveAll();pageAdmin();});
+  page.querySelectorAll('[data-ban]').forEach(b=>b.onclick=()=>{const u=A.users[b.dataset.ban];u.banned=!u.banned;saveAll();pageAdmin();});
+  page.querySelectorAll('[data-del]').forEach(b=>{let armed=false;b.onclick=()=>{if(!armed){armed=true;b.textContent='Click again to delete';return;}delete A.users[b.dataset.del];saveAll();pageAdmin();};});
+  if(isOwner()){$('#unlockAll').onclick=()=>{ITEMS.forEach(i=>{if(!data.owned.includes(i.id))data.owned.push(i.id);});save();$('#unlockAll').textContent='Done! Everything unlocked';};
+    $('#give1k').onclick=()=>{addStuds(1000);};}
+}
+function pageStudio(){
+  const mine=Object.values(A.places).sort((a,b)=>(b.updated||0)-(a.updated||0));
+  page.innerHTML=`<div class="box"><h2>🔨 Brickworld Studio</h2><div class="in">
+    <p style="margin-top:0">Build your own places brick by brick, then play them with AI players.</p>
+    <b>Create a new place:</b> <input class="txt" id="npName" maxlength="40" placeholder="My Awesome Place">
+    <select id="npTpl"><option value="base">Baseplate</option><option value="sky">Empty sky</option></select> <a class="btn green" id="npGo">Create</a></div></div>
+  <div class="box"><h2>My Places (${mine.length})</h2><div class="in" id="plist">${mine.length?'':'No places yet. Create one above!'}</div></div>`;
+  const pl=$('#plist');
+  mine.forEach(p=>{const row=document.createElement('div');row.style.cssText='display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dotted #c3cbd6;flex-wrap:wrap';
+    const cv=gameThumb(p.id,180,110);cv.style.cssText='width:150px;border:1px solid #9aa6b5';row.appendChild(cv);
+    row.insertAdjacentHTML('beforeend',`<div style="flex:1;min-width:160px"><b style="font-size:14px">${esc(p.name)}</b><div class="small">${p.parts.length} parts · by ${esc(p.creator||'?')} · updated ${new Date(p.updated||p.created).toLocaleString()}</div></div>
+      <div><a class="btn" href="#edit-${p.id}">✏ Edit</a> <a class="btn green" href="#play-${p.id}">▶ Play</a> <a class="btn gray" data-del="${p.id}">Delete</a></div>`);
+    pl.appendChild(row);});
+  pl.querySelectorAll('[data-del]').forEach(b=>{let armed=false;b.onclick=()=>{if(!armed){armed=true;b.textContent='Click again';return;}delete A.places[b.dataset.del];try{localStorage.removeItem('bw_thumb_'+b.dataset.del);}catch(e){}saveAll();pageStudio();};});
+  $('#npGo').onclick=()=>{
+    const name=($('#npName').value.trim()||'My Place').slice(0,40);const id='c'+Date.now().toString(36);const sky=$('#npTpl').value==='sky';
+    A.places[id]={id,name,desc:'',creator:data.name,custom:true,baseplate:!sky,maxAI:4,created:Date.now(),updated:Date.now(),
+      parts:[{name:'SpawnLocation',x:0,y:0,z:0,sx:12,sy:1,sz:12,color:'#a3a2a5',anchored:true,kind:'spawn'}]};
+    saveAll();location.hash='edit-'+id;
+  };
+}
+let launching=null,studio=null,returnTo=null;
+function launch(p){
+  const ov=document.createElement('div');ov.className='launcher';
+  ov.innerHTML=`<div class="lwin"><div class="ltitle">Brickworld</div><div class="lbody"><div class="llogo">${esc(worldName())}'s Brickworld</div>
+    <div class="lmsg">Starting Brickworld...</div><div class="lbar"><i></i></div><div class="small">${esc(p.name)}</div><a class="btn gray" data-x>Cancel</a></div></div>`;
+  document.body.appendChild(ov);
+  const steps=['Starting Brickworld Player...','Connecting to server...','Requesting place info...','Loading bricks...','Joining game...'];
+  const me_={ov};launching=me_;let i=0;
+  ov.querySelector('[data-x]').onclick=()=>{location.hash=returnTo||'games';returnTo=null;};
+  const tick=()=>{
+    if(launching!==me_)return;
+    if(i<steps.length){ov.querySelector('.lmsg').textContent=steps[i];ov.querySelector('.lbar i').style.width=((i+1)/steps.length*100)+'%';i++;setTimeout(tick,420+Math.random()*380);}
+    else{ov.remove();launching=null;document.body.classList.add('ingame');game=startGame(p);}
+  };
+  tick();
+}
 // ================= router =================
 function route(){
   const h=(location.hash||'#home').slice(1);
   if(preview){preview.stop();preview=null;}
   if(game&&!h.startsWith('play-')){game.stop();game=null;}
-  const ingame=h.startsWith('play-');
-  document.body.classList.toggle('ingame',ingame);
-  if(ingame){const p=PLACES[h.slice(5)];if(!p){location.hash='games';return;}if(!game){game=startGame(p);}return;}
-  updateHdr();setNav(h);window.scrollTo(0,0);
-  ({home:pageHome,games:pageGames,catalog:pageCatalog,avatar:pageAvatar,profile:pageProfile}[h]||pageHome)();
+  if(studio&&!h.startsWith('edit-')){studio.stop();studio=null;}
+  if(launching&&!h.startsWith('play-')){launching.ov.remove();launching=null;}
+  if(!cur()&&h!=='login'&&h!=='signup'){document.body.classList.remove('ingame');location.hash='login';if(h==='login')return;updateHdr();pageAuth('login');return;}
+  if(h.startsWith('play-')){const p=allPlaces()[h.slice(5)];if(!p){location.hash='games';return;}if(game){document.body.classList.add('ingame');return;}if(!launching)launch(p);return;}
+  if(h.startsWith('edit-')){const p=A.places[h.slice(5)];if(!p){location.hash='studio';return;}document.body.classList.add('ingame');if(!studio)studio=startStudio(p);return;}
+  document.body.classList.remove('ingame');
+  if((h==='login'||h==='signup')&&cur()){location.hash='home';return;}
+  updateHdr();window.scrollTo(0,0);
+  ({home:pageHome,games:pageGames,catalog:pageCatalog,avatar:pageAvatar,profile:pageProfile,studio:pageStudio,admin:pageAdmin,login:()=>pageAuth('login'),signup:()=>pageAuth('signup')}[h]||pageHome)();
+  updateHdr();
   dailyMsg='';
 }
 addEventListener('hashchange',route);
+
+// ================= STUDIO =================
+function startStudio(pl){
+  const ac=new AbortController(),sig={signal:ac.signal};let stopped=false;
+  const root=document.createElement('div');root.id='studio';document.body.appendChild(root);
+  root.innerHTML=`<div class="sbar"><b class="slogo">🔨 Brickworld Studio</b>
+    <button data-t="select" class="on" title="Click a part to select it">🖱 Select</button><button data-t="move" title="Drag parts around">✥ Move</button><button data-t="insert" title="Click to place a new part">➕ Part</button>
+    <span class="sep"></span><button data-a="dup">Duplicate</button><button data-a="del">Delete</button><button data-a="undo">Undo</button>
+    <span class="sep"></span><button data-a="play" class="g">▶ Play</button><button data-a="save">💾 Save</button><button data-a="exit">Exit</button><span class="smsg"></span></div>
+    <div class="sexp"><div class="sh">Explorer</div><div class="slist"></div></div>
+    <div class="sprop"><div class="sh">Properties</div><div class="spbody"></div></div>
+    <div class="shint">Right-drag: look around · WASD + Q/E: fly · Scroll: zoom · Click: select · Arrow keys: nudge · Shift+↑/↓: up/down · Del: delete · Ctrl+D: duplicate · Ctrl+Z: undo</div>`;
+  const q=s=>root.querySelector(s);
+  const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.shadowMap.enabled=true;root.appendChild(renderer.domElement);
+  const cvs=renderer.domElement;
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x9cc8f2);scene.fog=new THREE.Fog(0x9cc8f2,300,700);
+  const camera=new THREE.PerspectiveCamera(70,1,.1,1500);
+  scene.add(new THREE.HemisphereLight(0xdfefff,0x6a6a6a,.75));
+  const sun=new THREE.DirectionalLight(0xffffff,.75);sun.position.set(60,120,40);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+  Object.assign(sun.shadow.camera,{left:-120,right:120,top:120,bottom:-120,near:1,far:400});scene.add(sun);
+  const studTex=(rx,ry)=>{const t=new THREE.CanvasTexture(studImg);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.anisotropy=renderer.capabilities.getMaxAnisotropy();return t;};
+  let baseMesh=null;const grid=new THREE.GridHelper(300,75,0x5577aa,0x7799cc);grid.material.opacity=.35;grid.material.transparent=true;
+  function buildBase(){
+    if(baseMesh){scene.remove(baseMesh);baseMesh=null;}scene.remove(grid);
+    if(pl.baseplate){const sideM=new THREE.MeshLambertMaterial({color:0x5c5c5c});
+      baseMesh=new THREE.Mesh(new THREE.BoxGeometry(300,2,300),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x7d7d7d,map:studTex(300,300)}),sideM,sideM,sideM]);
+      baseMesh.position.y=-1;baseMesh.receiveShadow=true;scene.add(baseMesh);}
+    else{grid.position.y=0;scene.add(grid);}
+  }
+  buildBase();
+  // ---- parts ----
+  let parts=JSON.parse(JSON.stringify(pl.parts||[]));let sel=null;let tool='select';
+  const helper=new THREE.BoxHelper(undefined,0x2b7de9);helper.visible=false;scene.add(helper);
+  function mk(p){
+    if(p._m){scene.remove(p._m);p._m.geometry.dispose();}
+    const col=new THREE.Color(p.color||'#a3a2a5'),kill=p.kind==='kill';
+    const side=new THREE.MeshLambertMaterial({color:col,emissive:kill?0x550000:0});
+    const top=kill?side:new THREE.MeshLambertMaterial({color:col,map:studTex(p.sx,p.sz)});
+    const m=new THREE.Mesh(new THREE.BoxGeometry(p.sx,p.sy,p.sz),[side,side,top,side,side,side]);
+    m.position.set(p.x,p.y+p.sy/2,p.z);m.castShadow=m.receiveShadow=true;m.userData.p=p;scene.add(m);
+    Object.defineProperty(p,'_m',{value:m,writable:true,enumerable:false,configurable:true});
+    return m;
+  }
+  parts.forEach(mk);
+  const clean=()=>parts.map(p=>({name:p.name,x:p.x,y:p.y,z:p.z,sx:p.sx,sy:p.sy,sz:p.sz,color:p.color,anchored:p.anchored!==false,kind:p.kind||'part'}));
+  const undoStack=[];
+  function pushUndo(){undoStack.push(JSON.stringify(clean()));if(undoStack.length>60)undoStack.shift();dirty=true;}
+  function undo(){if(!undoStack.length)return;parts.forEach(p=>{scene.remove(p._m);});parts=JSON.parse(undoStack.pop());parts.forEach(mk);select(null);dirty=true;}
+  let dirty=false,lastColor='#a3a2a5',counter=parts.length;
+  function select(p){sel=p;if(p){helper.setFromObject(p._m);helper.visible=true;}else helper.visible=false;drawExplorer();drawProps();}
+  function refresh(p){mk(p);if(sel===p){helper.setFromObject(p._m);}drawExplorer();}
+  const icon=p=>p.kind==='spawn'?'🟩':p.kind==='kill'?'🟥':p.anchored===false?'🔶':'⬜';
+  function drawExplorer(){
+    const l=q('.slist');l.innerHTML='<div style="font-weight:bold;cursor:default">🌐 Workspace</div>'+parts.map((p,i)=>`<div data-i="${i}" class="${p===sel?'sel':''}">&nbsp;&nbsp;${icon(p)} ${esc(p.name||'Part')}</div>`).join('');
+    l.querySelectorAll('[data-i]').forEach(d=>d.onclick=()=>{select(parts[+d.dataset.i]);});
+  }
+  function drawProps(){
+    const b=q('.spbody');
+    if(!sel){
+      b.innerHTML=`<b>Place settings</b>
+        <label>Name</label><input type="text" id="pName" maxlength="40" value="${esc(pl.name)}">
+        <label>Description</label><textarea id="pDesc" rows="3" maxlength="200">${esc(pl.desc||'')}</textarea>
+        <label><input type="checkbox" id="pBase" ${pl.baseplate?'checked':''}> Baseplate</label>
+        <label>Max AI players</label><input type="number" id="pMax" min="0" max="10" value="${pl.maxAI??4}">
+        <p class="small">${parts.length} parts. Click a part to edit it, or pick <b>➕ Part</b> and click to build.</p>
+        <p class="small">🟩 Spawn = where players appear<br>🟥 Kill brick = touching it kills you<br>🔶 Unanchored = falls and can be pushed</p>`;
+      q('#pName').onchange=e=>{pl.name=e.target.value.trim()||'My Place';dirty=true;};
+      q('#pDesc').onchange=e=>{pl.desc=e.target.value.trim();dirty=true;};
+      q('#pBase').onchange=e=>{pl.baseplate=e.target.checked;buildBase();dirty=true;};
+      q('#pMax').onchange=e=>{pl.maxAI=clamp(Math.round(+e.target.value||0),0,10);dirty=true;};
+      return;
+    }
+    const p=sel;const num=(k,step=1,min)=>`<input type="number" data-k="${k}" step="${step}" ${min!==undefined?`min="${min}"`:''} value="${+(+p[k]).toFixed(2)}">`;
+    b.innerHTML=`<label>Name</label><input type="text" data-k="name" maxlength="30" value="${esc(p.name||'Part')}">
+      <label>Position (X, Y, Z)</label><div class="xyz">${num('x')}${num('y')}${num('z')}</div>
+      <label>Size (X, Y, Z)</label><div class="xyz">${num('sx',1,.2)}${num('sy',1,.2)}${num('sz',1,.2)}</div>
+      <label>Color</label><div class="pal">${PALETTE.map(c=>`<div data-c="${c}" style="background:${c};${c===p.color?'outline:2px solid #1f56a8':''}"></div>`).join('')}</div>
+      <label>Type</label><select data-k="kind"><option value="part">Part</option><option value="kill">Kill brick</option><option value="spawn">Spawn location</option></select>
+      <label><input type="checkbox" data-k="anchored" ${p.anchored!==false?'checked':''}> Anchored (stays in place)</label>
+      <div style="margin-top:10px"><button class="btn" data-a="dup">Duplicate</button> <button class="btn gray" data-a="del">Delete</button></div>`;
+    b.querySelector('select').value=p.kind||'part';
+    b.querySelectorAll('[data-k]').forEach(inp=>inp.onchange=()=>{
+      pushUndo();const k=inp.dataset.k;
+      if(k==='name')p.name=inp.value.slice(0,30)||'Part';
+      else if(k==='kind'){p.kind=inp.value;if(p.kind!=='part')p.anchored=true;drawProps();}
+      else if(k==='anchored')p.anchored=inp.checked;
+      else{let v=+inp.value;if(!isFinite(v))v=0;if(k.startsWith('s'))v=clamp(v,.2,512);else v=clamp(v,-1000,1000);p[k]=v;}
+      refresh(p);
+    });
+    b.querySelectorAll('[data-c]').forEach(d=>d.onclick=()=>{pushUndo();p.color=lastColor=d.dataset.c;refresh(p);drawProps();});
+    b.querySelectorAll('[data-a]').forEach(btn=>btn.onclick=()=>doAction(btn.dataset.a));
+  }
+  function addPart(p){counter++;p.name=p.name||('Part'+counter);parts.push(p);mk(p);SFX.place();select(p);}
+  function doAction(a){
+    if(a==='dup'&&sel){pushUndo();const c=Object.assign({},clean()[parts.indexOf(sel)]);c.x+=sel.sx;c.name=(sel.name||'Part')+' copy';addPart(c);}
+    else if(a==='del'&&sel){pushUndo();scene.remove(sel._m);parts.splice(parts.indexOf(sel),1);select(null);}
+    else if(a==='undo')undo();
+    else if(a==='save')doSave(true);
+    else if(a==='play'){doSave();returnTo='edit-'+pl.id;location.hash='play-'+pl.id;}
+    else if(a==='exit'){doSave();location.hash='studio';}
+  }
+  function doSave(show){pl.parts=clean();pl.updated=Date.now();A.places[pl.id]=pl;saveAll();dirty=false;if(show){const m=q('.smsg');m.textContent='Saved ✓';setTimeout(()=>{if(m)m.textContent='';},1800);}}
+  root.querySelector('.sbar').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+    if(t.dataset.t){tool=t.dataset.t;root.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===t));cvs.style.cursor=tool==='insert'?'crosshair':tool==='move'?'move':'default';}
+    else if(t.dataset.a)doAction(t.dataset.a);});
+  // ---- camera ----
+  const cam={pos:new THREE.Vector3(0,30,55),yaw:0,pitch:-.45};
+  const dirV=new THREE.Vector3();
+  function camDir(v){return v.set(-Math.sin(cam.yaw)*Math.cos(cam.pitch),Math.sin(cam.pitch),-Math.cos(cam.yaw)*Math.cos(cam.pitch));}
+  const keys={};
+  const typing=e=>/INPUT|TEXTAREA|SELECT/.test((e.target&&e.target.tagName)||'');
+  addEventListener('keydown',e=>{
+    if(typing(e))return;
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();return;}
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='d'){e.preventDefault();doAction('dup');return;}
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();doSave(true);return;}
+    if((e.key==='Delete'||e.key==='Backspace')&&sel){e.preventDefault();doAction('del');return;}
+    if(sel&&e.key.startsWith('Arrow')){e.preventDefault();pushUndo();
+      if(e.shiftKey){if(e.key==='ArrowUp')sel.y+=1;if(e.key==='ArrowDown')sel.y-=1;}
+      else{const fwd=camDir(dirV);const fx=Math.abs(fwd.x)>Math.abs(fwd.z);const sx=Math.sign(fx?fwd.x:fwd.z)||1;
+        // nudge relative to where the camera looks, snapped to world axes
+        const f=fx?['x',sx]:['z',sx],r=fx?['z',sx]:['x',-sx];
+        if(e.key==='ArrowUp')sel[f[0]]+=f[1];if(e.key==='ArrowDown')sel[f[0]]-=f[1];if(e.key==='ArrowRight')sel[r[0]]+=r[1];if(e.key==='ArrowLeft')sel[r[0]]-=r[1];}
+      refresh(sel);drawProps();return;}
+    if(e.key==='Escape'){select(null);return;}
+    keys[e.code]=true;
+  },sig);
+  addEventListener('keyup',e=>{keys[e.code]=false;},sig);
+  cvs.addEventListener('contextmenu',e=>e.preventDefault());
+  cvs.addEventListener('wheel',e=>{e.preventDefault();cam.pos.addScaledVector(camDir(dirV),-Math.sign(e.deltaY)*6);},{passive:false});
+  // ---- picking ----
+  const ray=new THREE.Raycaster(),mv=new THREE.Vector2();
+  function pick(e){const r=cvs.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
+    const objs=parts.map(p=>p._m);if(baseMesh)objs.push(baseMesh);const hits=ray.intersectObjects(objs,false);
+    if(hits.length)return hits[0];
+    // no baseplate: use the ground grid plane at y=0
+    const t=-ray.ray.origin.y/ray.ray.direction.y;if(t>0)return{point:ray.ray.origin.clone().addScaledVector(ray.ray.direction,t),object:null,face:{normal:new THREE.Vector3(0,1,0)}};
+    return null;}
+  let look=null,drag=null;const plane=new THREE.Plane(),ip=new THREE.Vector3();
+  cvs.addEventListener('pointerdown',e=>{
+    cvs.setPointerCapture(e.pointerId);
+    if(e.button===2||e.button===1){look={x:e.clientX,y:e.clientY};return;}
+    const h=pick(e);const p=h&&h.object&&h.object.userData.p;
+    if(tool==='insert'&&h){
+      pushUndo();const n=h.face.normal;const np={x:0,y:0,z:0,sx:4,sy:1,sz:2,color:lastColor,anchored:true,kind:'part'};
+      if(n.y>.5){np.x=Math.round(h.point.x);np.z=Math.round(h.point.z);np.y=p?p.y+p.sy:0;}
+      else if(n.y<-.5){np.x=Math.round(h.point.x);np.z=Math.round(h.point.z);np.y=p.y-np.sy;}
+      else{np.x=Math.round(h.point.x+n.x*np.sx/2);np.z=Math.round(h.point.z+n.z*np.sz/2);np.y=p?p.y:0;}
+      addPart(np);return;
+    }
+    select(p||null);
+    if(p&&tool==='move'){pushUndo();plane.set(new THREE.Vector3(0,1,0),-h.point.y);drag={p,ox:p.x-h.point.x,oz:p.z-h.point.z};}
+  });
+  cvs.addEventListener('pointermove',e=>{
+    if(look){cam.yaw-=(e.clientX-look.x)*.005;cam.pitch=clamp(cam.pitch-(e.clientY-look.y)*.005,-1.5,1.5);look.x=e.clientX;look.y=e.clientY;return;}
+    if(drag){const r=cvs.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
+      if(ray.ray.intersectPlane(plane,ip)){const nx=Math.round(ip.x+drag.ox),nz=Math.round(ip.z+drag.oz);if(nx!==drag.p.x||nz!==drag.p.z){drag.p.x=nx;drag.p.z=nz;drag.p._m.position.set(nx,drag.p.y+drag.p.sy/2,nz);helper.setFromObject(drag.p._m);}}}
+  });
+  const up=()=>{if(drag){drawProps();}look=null;drag=null;};
+  cvs.addEventListener('pointerup',up);cvs.addEventListener('pointercancel',up);
+  // ---- loop ----
+  function resize(){const w=cvs.clientWidth||innerWidth-410,h=cvs.clientHeight||innerHeight-56;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  addEventListener('resize',resize,sig);
+  const clock=new THREE.Clock();let raf;const right=new THREE.Vector3();
+  function frame(){
+    raf=requestAnimationFrame(frame);const dt=Math.min(clock.getDelta(),.05);
+    if(cvs.width<10||Math.abs(cvs.clientWidth*renderer.getPixelRatio()-cvs.width)>2)resize();
+    const sp=(keys.ShiftLeft||keys.ShiftRight?90:40)*dt;camDir(dirV);right.set(Math.cos(cam.yaw),0,-Math.sin(cam.yaw));
+    if(keys.KeyW)cam.pos.addScaledVector(dirV,sp);if(keys.KeyS)cam.pos.addScaledVector(dirV,-sp);
+    if(keys.KeyD)cam.pos.addScaledVector(right,sp);if(keys.KeyA)cam.pos.addScaledVector(right,-sp);
+    if(keys.KeyE)cam.pos.y+=sp;if(keys.KeyQ)cam.pos.y-=sp;
+    camera.position.copy(cam.pos);camera.lookAt(cam.pos.x+dirV.x,cam.pos.y+dirV.y,cam.pos.z+dirV.z);
+    renderer.render(scene,camera);
+  }
+  drawExplorer();drawProps();resize();frame();
+  // autosave every 30s
+  const auto=setInterval(()=>{if(dirty)doSave();},30000);
+  return{stop(){if(stopped)return;stopped=true;if(dirty)doSave();clearInterval(auto);cancelAnimationFrame(raf);ac.abort();renderer.dispose();renderer.forceContextLoss&&renderer.forceContextLoss();root.remove();}};
+}
 
 // ================= GAME =================
 function startGame(place){
@@ -480,15 +874,15 @@ function startGame(place){
   const timers=new Set();let stopped=false;
   const T=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);if(!stopped)fn();},ms);timers.add(id);return id;};
   const intervals=[];const every=(fn,ms)=>intervals.push(setInterval(()=>{if(!stopped)fn();},ms));
-  const isObby=place.id==='obby';
+  const isObby=place.id==='obby',isHangout=place.id==='hangout',isCustom=!!place.custom;
   const root=document.createElement('div');root.id='game';document.body.appendChild(root);
   root.innerHTML=`<div class="overlay"></div>
-   <div class="gtop"><button data-a="leave">◀ Leave</button><button data-a="reset">Reset</button><button data-a="help">Help</button><button data-a="shot" title="Use the current view as this game's thumbnail">📷 Thumbnail</button><span class="ttl">${esc(place.name)}</span><span class="studs"><i></i><span class="liveStuds">${data.studs}</span></span></div>
+   <div class="gtop"><button data-a="leave">◀ Leave</button><button data-a="reset">Reset</button><button data-a="help">Help</button><button data-a="shot" title="Use the current view as this game's thumbnail">📷 Thumbnail</button><button data-a="mute" title="Sound on/off">${A.settings.mute?'🔇':'🔊'}</button><span class="ttl">${esc(place.name)}</span><span class="studs"><i></i><span class="liveStuds">${data.studs}</span></span></div>
    <div class="chatlog"></div><div class="chatbar"><input maxlength="120" placeholder="Press / or Enter to chat" autocomplete="off"></div>
    <div class="board"><div class="hd"><span>Players</span><span>${isObby?'Stage':''}</span></div><ul></ul><div class="ctl"><span>AI players</span><span><button data-a="minus">−</button> <b class="maxai"></b> <button data-a="plus">+</button></span></div></div>
    ${isObby?'<div class="stage"></div>':''}
    <div class="ghelp"><b>WASD / arrows</b> walk · <b>Space</b> jump<br><b>Drag</b> to look · <b>Scroll</b> zoom · <b>R</b> reset<br><b>/ or Enter</b> to chat<br>
-   Say: <b>hi</b>, <b>follow me</b>, <b>come here</b>, <b>stop</b>, <b>jump</b>, <b>dance</b>${isObby?'':', <b>race me</b>'}, <b>bye</b><br>Add part of a name to talk to just one, like <b>toast follow me</b></div>
+   Talk to the AI players like real people. Ask them to follow you, come here, stop, jump, dance${isHangout?', race':''}…${isAdmin()?'<br>Admin: type <b>:cmds</b> for commands':''}</div>
    <button class="jumpbtn">JUMP</button><div class="stick"><i></i></div>
    <div class="loadscr">${esc(place.name)}<small>Joining game…</small></div>`;
   const q=s=>root.querySelector(s);
@@ -535,7 +929,24 @@ function startGame(place){
   }
   function logoDecal(x,y,z,s){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');g.strokeStyle='#ffd23f';g.lineWidth=10;g.beginPath();g.arc(64,64,48,0,7);g.stroke();g.fillStyle='#ffd23f';g.font='bold 56px Arial';g.textAlign='center';g.textBaseline='middle';g.fillText((data.name[0]||'S').toUpperCase(),64,68);
     const d=new THREE.Mesh(new THREE.PlaneGeometry(s,s),new THREE.MeshLambertMaterial({map:new THREE.CanvasTexture(c),transparent:true}));d.rotation.x=-Math.PI/2;d.position.set(x,y+.02,z);scene.add(d);}
-  if(!isObby){
+  function makeBaseplate(){
+    BASE=300;
+    const sideM=new THREE.MeshLambertMaterial({color:0x5c5c5c});
+    const base=new THREE.Mesh(new THREE.BoxGeometry(BASE,2,BASE),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x7d7d7d,map:studTex(BASE,BASE)}),sideM,sideM,sideM]);
+    base.position.y=-1;base.receiveShadow=true;scene.add(base);
+    if(PHYS){const gb=new CANNON.Body({mass:0,shape:new CANNON.Box(new CANNON.Vec3(BASE/2,1,BASE/2))});gb.position.set(0,-1,0);world.addBody(gb);}
+  }
+  if(isCustom){
+    if(place.baseplate)makeBaseplate();
+    for(const pt of place.parts||[]){
+      const col=new THREE.Color(pt.color||'#a3a2a5').getHex();
+      if(pt.kind==='spawn'){const b=brick(pt.x,pt.y,pt.z,pt.sx,pt.sy,pt.sz,col,{spawn:true});if(!spawnBox){spawnBox=b;logoDecal(pt.x,pt.y+pt.sy,pt.z,Math.min(pt.sx,pt.sz)*.75);}}
+      else if(pt.kind==='kill')brick(pt.x,pt.y,pt.z,pt.sx,pt.sy,pt.sz,col,{kill:true});
+      else if(pt.anchored===false)looseBrick(pt.x,pt.y,pt.z,pt.sx,pt.sy,pt.sz,col);
+      else brick(pt.x,pt.y,pt.z,pt.sx,pt.sy,pt.sz,col);
+    }
+    if(!spawnBox){if(BASE)spawnBox={min:new THREE.Vector3(-6,0,-6),max:new THREE.Vector3(6,0,6)};else spawnBox=brick(0,0,0,12,1,12,0x9a9a9a,{spawn:true});}
+  }else if(!isObby){
     BASE=300;
     const sideM=new THREE.MeshLambertMaterial({color:0x5c5c5c});
     const base=new THREE.Mesh(new THREE.BoxGeometry(BASE,2,BASE),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x7d7d7d,map:studTex(BASE,BASE)}),sideM,sideM,sideM]);
@@ -597,13 +1008,15 @@ function startGame(place){
     }
     remove(){if(this.body)world.removeBody(this.body);scene.remove(this.group);this.tag.remove();this.bub.remove();chars.splice(chars.indexOf(this),1);}
   }
+  let mySpeed=16,myJump=50,god=false;
   const SPEED=16,GRAV=196.2,JUMPV=50,R=.95,H=5.2; // walk 16 studs/s, gravity 196.2 studs/s², jump power 50
   function circleBox(px,pz,b,r){const cx=clamp(px,b.min.x,b.max.x),cz=clamp(pz,b.min.z,b.max.z);const dx=px-cx,dz=pz-cz;return{hit:dx*dx+dz*dz<r*r,dx,dz,d:Math.sqrt(dx*dx+dz*dz)};}
   function step(c,dt,dir,jump){
     if(c.dead)return 0;
-    const sp=c.isBot?(c.ai.racing?17:(isObby?15.5:13)):SPEED;
+    const sp=c.isBot?(c.ai.racing?17:(isObby?15.5:13)):mySpeed;
     c.vel.x=dir.x*sp;c.vel.z=dir.z*sp;
-    if(jump&&c.grounded){c.vel.y=JUMPV;c.grounded=false;}
+    if(jump&&c.grounded){c.vel.y=c===me?myJump:JUMPV;c.grounded=false;if(c===me)SFX.jump();}
+    const wasAir=!c.grounded,fallV=c.vel.y;
     c.vel.y-=GRAV*dt;
     const ox=c.pos.x,oz=c.pos.z;c.pos.x+=c.vel.x*dt;c.pos.z+=c.vel.z*dt;
     for(const b of boxes){
@@ -621,7 +1034,7 @@ function startGame(place){
       if(prevY>=b.max.y-.05&&b.max.y>ground){ground=b.max.y;gb=b;}
       else if(c.vel.y>0&&prevY+H<=b.min.y+.05&&c.pos.y+H>b.min.y){c.pos.y=b.min.y-H;c.vel.y=0;}
     }
-    if(c.pos.y<=ground){c.pos.y=ground;c.vel.y=0;c.grounded=true;c.ground=gb;if(gb){if(gb.kill){die(c);return 0;}onLand(c,gb);}}
+    if(c.pos.y<=ground){if(c===me&&wasAir&&fallV<-30)SFX.land(Math.min(1,-fallV/120));c.pos.y=ground;c.vel.y=0;c.grounded=true;c.ground=gb;if(gb){if(gb.kill){die(c);return 0;}onLand(c,gb);}}
     else{c.grounded=c.pos.y-ground<.05;if(!c.grounded)c.ground=null;}
     if(c.pos.y<(isObby?-60:-80)){die(c);return 0;}
     c.moving=dir.lengthSq()>.01;
@@ -633,7 +1046,7 @@ function startGame(place){
     if(b.idx>c.stage){c.stage=b.idx;if(c===me)updateStage();refreshBoard();}
     if(b.cp&&b.idx>=(c.cp.idx||0))c.cp=b;
     if(b.finish&&!c.finished){c.finished=true;
-      if(c===me){data.wins.obby=(data.wins.obby||0)+1;addStuds(25);toast('YOU WIN!<br><span style="font-size:18px">+25 Studs</span>');sys(`${me.name} beat the obby! (+25 Studs)`);
+      if(c===me){data.wins.obby=(data.wins.obby||0)+1;SFX.win();addStuds(25);toast('YOU WIN!<br><span style="font-size:18px">+25 Studs</span>');sys(`${me.name} beat the obby! (+25 Studs)`);
         bots().forEach(bt=>{if(Math.random()<.6)sayLater(bt,['gg','gg '+me.name,'how did u do that','pro','nice!!','GG']);});}
       else{sys(`${c.name} beat the obby!`);T(()=>chars.includes(c)&&c.say(pick(['GG','i did it!!','first try (not really)','finally lol'])),900);}
     }
@@ -643,8 +1056,11 @@ function startGame(place){
     if(c.isBot&&c.ai){c.ai.target.copy(c.pos);c.ai.state='idle';c.ai.t=rand(.5,2);}
   }
   const debris=[];
-  function die(c){
-    if(c.dead)return;c.dead=true;c.group.visible=false;
+  function die(c,force){
+    if(c.dead)return;
+    if(c===me&&god&&!force&&c.pos.y>-50)return;
+    c.dead=true;c.group.visible=false;
+    {const d=c===me?1:Math.max(0,1-c.pos.distanceTo(me.pos)/60);if(d>0)SFX.die(d);}
     const cols=[c.look.head,c.look.torso,c.look.larm,c.look.rarm,c.look.lleg,c.look.rleg];
     if(PHYS){
       c.group.updateMatrixWorld(true);
@@ -673,7 +1089,8 @@ function startGame(place){
       if(c.vel.y>0){lA=rA=-Math.PI*.97;lL=.45;rL=-.2;k=Math.min(1,dt*22);}   // jump: arms straight up
       else{lA=rA=-Math.PI*.8;lAz=-.2;rAz=.2;lL=.2;rL=-.2;}                       // falling
     }else if(c.moving){
-      const sp=Math.hypot(c.vel.x,c.vel.z);c.walkT+=dt*sp*.62;const sw=Math.sin(c.walkT)*1.05;
+      const sp=Math.hypot(c.vel.x,c.vel.z);const prevS=Math.sin(c.walkT);c.walkT+=dt*sp*.62;const sw=Math.sin(c.walkT)*1.05;
+      if(Math.sign(prevS)!==Math.sign(sw)){if(c===me)SFX.step();else{const d=1-c.pos.distanceTo(me.pos)/30;if(d>0)SFX.step(d*.6);}}
       lL=sw;rL=-sw;lA=-sw;rA=sw;
     }else{c.walkT=0;const b=Math.sin(c.animT*1.7)*.07;lA=b;rA=-b;lAz=-.05-Math.abs(b)*.3;rAz=.05+Math.abs(b)*.3;}
     c.lLeg.rotation.x+=(lL-c.lLeg.rotation.x)*k;c.rLeg.rotation.x+=(rL-c.rLeg.rotation.x)*k;
@@ -685,12 +1102,12 @@ function startGame(place){
   // ---- UI ----
   function logLine(html,cls){const d=document.createElement('div');if(cls)d.className=cls;d.innerHTML=html;logEl.appendChild(d);while(logEl.children.length>40)logEl.firstChild.remove();}
   const history=[];
-  function logChat(n,t){history.push(`${n}: ${t}`);if(history.length>24)history.shift();logLine(`<span style="color:${nameColor(n)}">[${esc(n)}]:</span> ${esc(t)}`);}
+  function logChat(n,t){history.push(`${n}: ${t}`);if(history.length>24)history.shift();const adm=n===data.name&&isAdmin();logLine(`${adm?'<span style="color:#ffd23f">[Admin]</span> ':''}<span style="color:${nameColor(n)}">[${esc(n)}]:</span> ${esc(t)}`);SFX.chat(.6);}
   function sys(t){history.push(`[game] ${t}`);if(history.length>24)history.shift();logLine(esc(t),'sys');}
   function toast(html){const d=document.createElement('div');d.className='toast';d.innerHTML=html;root.appendChild(d);T(()=>{d.style.opacity=0;T(()=>d.remove(),900);},2600);}
   function refreshBoard(){
     const ul=q('.board ul');ul.innerHTML='';
-    chars.slice().sort((a,b)=>isObby?b.stage-a.stage:0).forEach(c=>{const li=document.createElement('li');if(c===me)li.className='me';li.innerHTML=`<span>${esc(c.name)}</span><span>${isObby?c.stage:''}</span>`;ul.appendChild(li);});
+    chars.slice().sort((a,b)=>isObby?b.stage-a.stage:0).forEach(c=>{const li=document.createElement('li');if(c===me)li.className='me';li.innerHTML=`<span>${c===me&&isAdmin()?'⭐ ':''}${esc(c.name)}</span><span>${isObby?c.stage:''}</span>`;ul.appendChild(li);});
   }
   function updateStage(){const s=q('.stage');if(s)s.textContent=`Stage ${me.stage} / ${course.length-1}`;}
   let maxAI=place.maxAI-1;q('.maxai').textContent=maxAI;
@@ -701,9 +1118,9 @@ function startGame(place){
   // ---- input ----
   let camYaw=isObby?0:.6,camPitch=.35,camDist=22;const keys={};
   addEventListener('keydown',e=>{
-    if(document.activeElement===chatin){if(e.key==='Enter'){const t=chatin.value.trim();chatin.value='';chatin.blur();if(t)me.say(t);}else if(e.key==='Escape')chatin.blur();return;}
+    if(document.activeElement===chatin){if(e.key==='Enter'){const t=chatin.value.trim();chatin.value='';chatin.blur();if(t){if(t[0]===':')runCmd(t.slice(1));else me.say(t);}}else if(e.key==='Escape')chatin.blur();return;}
     if(e.key==='/'||e.key==='Enter'){e.preventDefault();chatin.focus();return;}
-    if(e.key==='r'||e.key==='R')die(me);
+    if(e.key==='r'||e.key==='R')die(me,true);
     keys[e.code]=true;if(e.code==='Space'||e.code.startsWith('Arrow'))e.preventDefault();
   },sig);
   addEventListener('keyup',e=>{keys[e.code]=false;},sig);
@@ -728,8 +1145,9 @@ function startGame(place){
   let touchJump=false;const jb=q('.jumpbtn');
   jb.addEventListener('pointerdown',e=>{touchJump=true;e.preventDefault();});jb.addEventListener('pointerup',()=>touchJump=false);jb.addEventListener('pointerleave',()=>touchJump=false);
   root.querySelector('.gtop').addEventListener('click',e=>{const a=e.target.dataset.a;
-    if(a==='leave')location.hash='games';
-    else if(a==='reset')die(me);
+    if(a==='leave'){location.hash=returnTo||'games';returnTo=null;}
+    else if(a==='reset')die(me,true);
+    else if(a==='mute'){A.settings.mute=!A.settings.mute;saveAll();e.target.textContent=A.settings.mute?'🔇':'🔊';}
     else if(a==='shot'){shotReq='manual';}
     else if(a==='help'){const h=q('.ghelp');h.style.display=h.style.display==='none'?'block':'none';}
   });
@@ -739,11 +1157,36 @@ function startGame(place){
     q('.maxai').textContent=maxAI;
   });
 
+  // ---- admin commands ----
+  function runCmd(t){
+    if(!isAdmin()){sys("You don't have permission to use admin commands.");return;}
+    const args=t.trim().split(/\s+/),c=(args.shift()||'').toLowerCase(),rest=args.join(' ');
+    const find=n=>{n=(n||'').toLowerCase();if(!n)return null;if(n==='me')return me;return chars.find(x=>x.name.toLowerCase()===n)||chars.find(x=>x.name.toLowerCase().startsWith(n))||chars.find(x=>x.name.toLowerCase().includes(n));};
+    switch(c){
+      case 'cmds':case 'help':sys('Admin commands: :speed 30 · :jumppower 80 · :god · :kick name · :kill name · :bring name · :tp name · :spawn 3 · :clearbots · :m message · :give 100 · :respawn · :follow name · :unfollow');break;
+      case 'speed':case 'ws':mySpeed=clamp(+args[0]||16,0,250);sys(`WalkSpeed set to ${mySpeed}`);break;
+      case 'jumppower':case 'jp':case 'jump':myJump=clamp(+args[0]||50,0,400);sys(`JumpPower set to ${myJump}`);break;
+      case 'god':god=!god;sys(`God mode ${god?'ON (kill bricks cannot hurt you)':'OFF'}`);break;
+      case 'kick':{const b=find(args[0]);if(!b||b===me){sys('Player not found.');break;}b.say(pick(['wait what','noooo','ok ok im going','bruh']));T(()=>{if(chars.includes(b)){b.remove();sys(`${b.name} was kicked by an admin.`);refreshBoard();}},700);break;}
+      case 'kill':{const b=find(args[0]||'me');if(b)die(b,true);else sys('Player not found.');break;}
+      case 'bring':{const b=find(args[0]);if(b&&b!==me){b.pos.set(me.pos.x+rand(-3,3),me.pos.y+.5,me.pos.z+rand(-3,3));b.vel.set(0,0,0);}else sys('Player not found.');break;}
+      case 'tp':case 'to':case 'goto':{const b=find(args[0]);if(b&&b!==me){me.pos.set(b.pos.x+2,b.pos.y+.5,b.pos.z);me.vel.set(0,0,0);}else sys('Player not found.');break;}
+      case 'spawn':{const n=clamp(+args[0]||1,1,8);maxAI=Math.min(12,Math.max(maxAI,bots().length+n));q('.maxai').textContent=maxAI;for(let i=0;i<n;i++)joinBot();break;}
+      case 'clearbots':bots().forEach(b=>b.remove());sys('All AI players removed.');refreshBoard();break;
+      case 'm':case 'announce':case 'msg':if(rest){toast(`<span style="font-size:22px">📢 ${esc(rest)}</span>`);sys(`[Announcement] ${rest}`);bots().forEach(b=>{if(Math.random()<.4)sayLater(b,['ok!','yes sir','got it','lol ok','👍']);});}break;
+      case 'give':{const n=clamp(Math.floor(+args[0]||0),0,100000);addStuds(n);sys(`Gave you ${n} Studs.`);break;}
+      case 'respawn':case 're':die(me,true);break;
+      case 'follow':{const b=find(args[0]);if(b&&b.isBot)applyAction(b,'follow');break;}
+      case 'unfollow':bots().forEach(b=>{b.ai.follow=false;});sys('Nobody is following you now.');break;
+      default:sys('Unknown command. Type :cmds for the list.');
+    }
+  }
   // ---- AI players ----
   const bots=()=>chars.filter(c=>c.isBot);
   const LINES={
     greet:['hi','hey','yo','sup guys','hiii','hello!!','wsg'],
     idle:isObby?['this obby is hard','stage 7 is impossible','anyone wanna race to the end','the red bricks keep killing me','im so close','lowkey easy','who made this obby its so good','ok last try','im on a roll','i keep falling lol']
+      :isCustom?['who built this place','this place is cool','anyone wanna explore','what should we do here','i like the colors here','lol','brb','this is my favorite place now',`${data.name} did u make this?`,'im bored lol','tag anyone?']
       :['anyone wanna play tag','this baseplate is so classic','whats everyone doing','who wants to build something','race me to the blue tower','im bored lol','this game is fire','lowkey love this place','i made it to the top of the tower once','anyone tried the floating parkour','brb','lol','omg i love the old style','sit on the benches with me','dance party?','i bet i can jump higher than u',`${data.name} this game is cool`],
     reply:['fr','true','lol','wait what','ok','nice','same','LOL','yeah','no way','haha','real','ikr'],
     hello:['hi {p}!','hey {p}','yo {p}','sup {p}','hiii {p}','hello :)'],
@@ -761,13 +1204,17 @@ function startGame(place){
     name:['im {n}','{n} lol','its {n}'],
   };
   const fill=(s,b)=>s.replace('{p}',me.name).replace('{n}',b.name);
-  function joinBot(forced){
+  function joinBot(forced,silent){
     const used=new Set(chars.map(c=>c.name));
     let name=forced&&!used.has(forced)?forced:null;
     if(!name){const free=BOT_NAMES.filter(n=>!used.has(n)&&n!==me.name);if(!free.length)return;name=pick(free);}
     const b=new Char(name,friendLook(name)||randomLook(),true);
     b.ai={state:'idle',t:rand(1,3),target:new THREE.Vector3(),follow:false,stay:false,racing:false,chatT:rand(8,22),blocked:0,leaving:false,jumpNow:0,jumpAt:rand(3.5,6)};
     spawnAt(b);b.yaw=rand(0,6.28);
+    if(silent){ // was already in this server before you joined: put them somewhere around the map
+      if(isObby){const k=Math.floor(rand(0,Math.min(18,course.length-2)));b.stage=k;b.cp=course.filter(c=>c.cp&&c.idx<=k).pop()||spawnBox;const box=course[k];boxCenter(box,b.pos);}
+      else if(BASE){b.pos.set(rand(-40,40),0,rand(-40,40));}
+      refreshBoard();return;}
     sys(`${b.name} joined the game.`);refreshBoard();
     if(Math.random()<.7)T(()=>{if(chars.includes(b))b.say(pick(LINES.greet));},rand(1500,4000));
   }
@@ -788,7 +1235,7 @@ function startGame(place){
       const near=bs.slice().sort((a,b)=>a.pos.distanceTo(me.pos)-b.pos.distanceTo(me.pos));
       let who=target.length?target:everyone?bs:near.filter(b=>b.pos.distanceTo(me.pos)<45).slice(0,Math.random()<.5?1:2);
       if(!who.length)who=[near[0]];
-      if(aiReady()){aiConverse(who.slice(0,3),text);return;}
+      if(aiReady()&&A.settings.aiChat){aiConverse(who.slice(0,3),text);return;}
       const cmd=re=>re.test(t);
       for(const b of who){const ai=b.ai;
         if(cmd(/\bfollow\b/)){ai.follow=true;ai.stay=false;ai.racing=false;sayLater(b,LINES.follow);}
@@ -796,7 +1243,7 @@ function startGame(place){
         else if(cmd(/\bcome\b/)){ai.follow=false;ai.stay=false;ai.state='walk';ai.target.copy(me.pos).add(new THREE.Vector3(rand(-4,4),0,rand(-4,4)));ai.t=20;ai.come=true;sayLater(b,LINES.come);}
         else if(cmd(/\bjump\b/)){later(()=>{ai.jumpNow=3;},300,1200);sayLater(b,LINES.jump);}
         else if(cmd(/\bdance\b/)){later(()=>{b.spin=3;ai.jumpNow=2;},300,1200);sayLater(b,LINES.dance);}
-        else if(cmd(/\brace\b/)&&!isObby){ai.follow=false;ai.stay=false;ai.racing=true;ai.state='walk';ai.target.set(rand(28,32),0,-24);ai.t=40;sayLater(b,LINES.race);}
+        else if(cmd(/\brace\b/)&&isHangout){ai.follow=false;ai.stay=false;ai.racing=true;ai.state='walk';ai.target.set(rand(28,32),0,-24);ai.t=40;sayLater(b,LINES.race);}
         else if(cmd(/\b(bye|cya|gtg|goodbye)\b/))sayLater(b,LINES.bye);
         else if(cmd(/\b(leave|go away|get out|kick)\b/)&&target.length)later(()=>leaveBot(b),400,1200);
         else if(cmd(/\b(hi|hey|hello|sup|yo|hii+|wsg)\b/))sayLater(b,LINES.hello);
@@ -820,28 +1267,28 @@ function startGame(place){
       case 'come':ai.follow=false;ai.stay=false;ai.state='walk';ai.target.copy(me.pos).add(new THREE.Vector3(rand(-4,4),0,rand(-4,4)));ai.t=20;ai.come=true;break;
       case 'jump':ai.jumpNow=3;break;
       case 'dance':b.spin=3;ai.jumpNow=1;break;
-      case 'race':if(!isObby){ai.follow=false;ai.stay=false;ai.racing=true;ai.state='walk';ai.target.set(rand(28,32),0,-24);ai.t=40;}break;
+      case 'race':if(isHangout){ai.follow=false;ai.stay=false;ai.racing=true;ai.state='walk';ai.target.set(rand(28,32),0,-24);ai.t=40;}break;
       case 'leave':T(()=>leaveBot(b),1500);break;
     }
   }
-  let aiBusy=0;
+  let aiBusy=0,lastAI=Date.now();
   async function aiConverse(who,text){
     if(aiBusy>=2){return;}
-    aiBusy++;
+    aiBusy++;lastAI=Date.now();
     const typing=who.map(b=>{const d=document.createElement('div');d.className='bubble';d.textContent='...';b.bub.appendChild(d);return d;});
     const status=bots().map(b=>`- ${b.name}: personality "${personality(b.name)}"; ${b.ai.follow?'currently following '+me.name:b.ai.stay?'staying put':'walking around'}${isObby?`; on stage ${b.stage} of ${course.length-1}`:''}; ${Math.round(b.pos.distanceTo(me.pos))} studs from ${me.name}`).join('\n');
-    const prompt=`You are role-playing the AI players in "${data.name}'s Brickworld", a classic-style online brick game (old-school blocky avatars, studded baseplates, obbies). The only human is "${me.name}" (the game's creator). Current place: ${place.name}: ${place.desc}${isObby?` ${me.name} is on stage ${me.stage}.`:''}
+    const prompt=`You are role-playing the AI players in "${worldName()}'s Brickworld", a classic-style online brick game (old-school blocky avatars, studded baseplates, obbies). The only human is "${me.name}"${isAdmin()?' (an admin of this game)':''}. Current place: ${place.name}: ${place.desc}${isObby?` ${me.name} is on stage ${me.stage}.`:''}
 AI players here:
 ${status}
 
 Recent chat (oldest first):
 ${history.slice(-18).join('\n')}
 
-${me.name} just said: "${text}"
+${text===null?`Nobody has said anything for a bit. Have ${who[0].name} start or continue a conversation the way a real player would: talk to ${me.name} or another player, comment on what is happening in the game, suggest something fun to do here, or bring up something from earlier.`:`${me.name} just said: "${text}"`}
 
 Write the next chat message from each of these players: ${who.map(b=>b.name).join(', ')}. Make them sound like real kids chatting in an online game: casual, mostly lowercase, short (under 20 words), slang like lol, fr, ngl, bruh is fine. Each stays true to their personality, actually responds to what ${me.name} said, remembers the earlier chat, and keeps the conversation going (ask things back, suggest stuff to do in this place). They can talk to each other too. Different players should say different things.
 Rules: keep it friendly and kid-appropriate (no swearing, no mean or scary stuff). Never ask for or share personal info (real name, age, address, school, passwords, photos) and never suggest meeting up or moving to another app. If someone asks whether they are bots or AI, be honest and playful: they are AI players who live in Brickworld.
-Each player can also do ONE action when it fits what was said: none, follow (follow ${me.name} around), stop (stay where they are), come (walk over to ${me.name}), jump, dance${isObby?'':', race (race to the blue tower)'}, leave (leave the game, only if asked to go away or saying goodbye for real).
+Each player can also do ONE action when it fits what was said: none, follow (follow ${me.name} around), stop (stay where they are), come (walk over to ${me.name}), jump, dance${isHangout?', race (race to the blue tower)':''}, leave (leave the game, only if asked to go away or saying goodbye for real).
 Reply with only JSON: {"replies":[{"name":"player name","text":"their message","action":"none"}]}`;
     let out=null;
     try{out=await SAMPLE.json(prompt,{modelTier:'quick',cache:false});}
@@ -861,6 +1308,7 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
       delay+=rand(900,2200);
     }
   }
+  function wanderTarget(v){if(BASE)return v.set(rand(-60,60),0,rand(-60,60));const bs=boxes.filter(b=>!b.kill);return bs.length?boxCenter(pick(bs),v):v.set(0,0,0);}
   const tmp=new THREE.Vector3();
   function boxCenter(b,v){return v.set((b.min.x+b.max.x)/2,b.max.y,(b.min.z+b.max.z)/2);}
   function botThink(b,dt){
@@ -894,10 +1342,10 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
         }
       }else if(ai.t<=0&&!ai.stay&&!isObby){
         const r=Math.random();ai.state='walk';ai.t=rand(8,14);
-        if(r<.35)ai.target.set(rand(-70,70),0,rand(-70,70));
+        if(r<.35)wanderTarget(ai.target);
         else if(r<.65){const a=rand(0,6.28),d=rand(5,9);ai.target.set(me.pos.x+Math.cos(a)*d,0,me.pos.z+Math.sin(a)*d);}
         else if(r<.8){const o=pick(bots().filter(x=>x!==b))||me;const a=rand(0,6.28);ai.target.set(o.pos.x+Math.cos(a)*5,0,o.pos.z+Math.sin(a)*5);}
-        else if(r<.9)ai.target.set(-22,0,26+rand(-1,1));
+        else if(r<.9){if(isHangout)ai.target.set(-22,0,26+rand(-1,1));else wanderTarget(ai.target);}
         else{ai.state='idle';ai.t=rand(2,5);}
       }else if(ai.state==='idle'&&ai.t<=0&&ai.stay)ai.stay=false;
       if(ai.state==='idle'&&b.pos.distanceTo(me.pos)<18&&b.spin<=0)b.yaw+=angDiff(b.yaw,Math.atan2(me.pos.x-b.pos.x,me.pos.z-b.pos.z))*Math.min(1,dt*4);
@@ -905,13 +1353,28 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
     tmp.y=0;const l=tmp.length();if(l>.001)tmp.divideScalar(l);
     return tmp;
   }
-  // population
-  const jf=joinFriend;joinFriend=null;T(()=>joinBot(jf),900);
-  [3200,6500,11000].forEach((ms,i)=>T(()=>{if(bots().length<maxAI)joinBot();},ms));
-  every(()=>{const bs=bots().filter(b=>!b.ai.leaving);
-    if(bs.length<maxAI&&Math.random()<.6)joinBot();
-    else if(bs.length>2&&Math.random()<.25){const c=bs.filter(b=>!b.ai.follow);if(c.length)leaveBot(pick(c));}
-  },25000);
+  // population: AI players are on their own schedules. The ones "playing" this place are already here; others hop on and off over time.
+  const jf=joinFriend;joinFriend=null;
+  const scheduledHere=()=>BOT_NAMES.filter(n=>presence(n)===place.id&&n!==me.name);
+  scheduledHere().slice(0,maxAI).forEach(n=>joinBot(n,true));
+  if(jf&&!chars.find(c=>c.name===jf))joinBot(jf,true);
+  if(bots().length<2)[2500,8000].forEach(ms=>T(()=>{if(bots().length<maxAI)joinBot();},ms));
+  every(()=>{
+    const want=new Set(scheduledHere()),bs=bots().filter(b=>!b.ai.leaving);
+    const goers=bs.filter(b=>!want.has(b.name)&&!b.ai.follow);
+    if(goers.length&&bs.length>1&&Math.random()<.55)leaveBot(pick(goers));
+    const comers=[...want].filter(n=>!chars.find(c=>c.name===n));
+    if(comers.length&&bots().length<maxAI)T(()=>{if(bots().length<maxAI)joinBot(pick(comers));},rand(500,9000));
+    else if(bots().length<1&&Math.random()<.5)joinBot();
+    else if(bots().length<maxAI&&Math.random()<.12)joinBot();
+  },20000);
+  // AI players start conversations on their own too
+  every(()=>{
+    if(!aiReady()||!A.settings.aiChat||aiBusy||Date.now()-lastAI<40000)return;
+    const near=bots().filter(b=>!b.ai.leaving&&!b.dead&&b.pos.distanceTo(me.pos)<60);
+    if(!near.length||Math.random()<.45)return;
+    aiConverse([pick(near)],null);
+  },15000);
   every(()=>{data.played++;addStuds(1);},60000);
 
   // ---- loop ----
