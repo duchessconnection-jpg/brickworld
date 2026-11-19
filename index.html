@@ -229,7 +229,30 @@ const role=()=>cur()?A.users[cur()].role:null;
 const isAdmin=()=>role()==='owner'||role()==='admin';
 const isOwner=()=>role()==='owner';
 function saveAll(){try{localStorage.setItem(ACC,JSON.stringify(A));}catch(e){}}
-function save(){if(cur())A.users[cur()].save=data;saveAll();}
+function save(){if(cur()){data.updated=Date.now();A.users[cur()].save=data;}saveAll();}
+// ---- sharing your account with the Brickworld desktop app ----
+const b64u=s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64u=s=>decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/'))));
+function accountPayload(){const u=A.users[cur()];
+  return b64u(JSON.stringify({n:cur(),r:u.role,h:u.hash,u:data.updated||Date.now(),s:{name:data.name,studs:data.studs,owned:data.owned,av:data.av,badges:data.badges||{},lastDaily:data.lastDaily,visits:data.visits||{},wins:data.wins||{}}}));}
+function appLink(action,placeId){return 'brickworld://'+action+'/'+(placeId||'x')+'/'+accountPayload();}
+function importFromApp(payload){
+  try{
+    const o=JSON.parse(unb64u(payload));if(!o||typeof o.n!=='string'||!/^[A-Za-z0-9_]{1,20}$/.test(o.n))return false;
+    let key=Object.keys(A.users).find(k=>k.toLowerCase()===o.n.toLowerCase());
+    const otherOwner=Object.keys(A.users).some(k=>A.users[k].role==='owner'&&k!==key);
+    if(!key){key=o.n;A.users[key]={hash:o.h,role:(o.r==='owner'&&otherOwner)?'player':(o.r||'player'),created:Date.now()};}
+    const u=A.users[key];if(o.h)u.hash=o.h;
+    const sv=Object.assign(freshSave(key),u.save||{});
+    if((+o.u||0)>=(sv.updated||0)&&o.s){
+      const x=o.s;Object.assign(sv,{name:x.name||sv.name,studs:+x.studs||0,badges:x.badges||sv.badges,visits:x.visits||sv.visits,wins:x.wins||sv.wins,lastDaily:Math.max(+x.lastDaily||0,sv.lastDaily||0),updated:+o.u});
+      if(Array.isArray(x.owned)){const keep=(sv.owned||[]).filter(id=>id.startsWith('shirt_'));sv.owned=[...new Set([...x.owned,...keep,'hat_none','face_smile','shirt_none'])];}
+      if(x.av)sv.av=Object.assign({},sv.av,x.av);
+    }
+    u.save=sv;A.session=key;saveAll();return true;
+  }catch(e){return false;}
+}
+{const m=location.hash.match(/^#sync=([A-Za-z0-9_-]+)/);if(m){const ok=importFromApp(m[1]);history.replaceState(null,'',location.pathname+location.search+'#home');if(ok)setTimeout(()=>{const b=document.createElement('div');b.className='banner';b.textContent='✅ Your progress from the Brickworld app was saved here.';page.prepend(b);},300);}}
 function loadUser(){
   if(!cur()){data=freshSave('Guest');return;}
   const u=A.users[cur()];data=Object.assign(freshSave(cur()),u.save||{});data.av=Object.assign({},DEFAULT.av,data.av);u.save=data;
@@ -457,7 +480,7 @@ function pageHome(){
       <div><p style="margin-top:0">Welcome back to your Brickworld. You have <span class="studs"><i></i><span class="liveStuds">${data.studs}</span> Studs</span>.</p>
       <p>Studs work like the old Tix: you get <b>10 free Studs every day you log in</b>, and you earn Studs when people visit the places you build in <a href="#studio">Studio</a>. Spend them in the <a href="#catalog">Catalog</a>.</p>
       <p class="small">Badges: ${Object.values(data.badges||{}).map(esc).join(', ')||'none yet'}</p>
-      <a class="btn" href="#avatar">Change my avatar</a> <a class="btn green" href="#games">Play games</a></div></div></div>
+      <a class="btn" href="#avatar">Change my avatar</a> <a class="btn green" href="#games">Play games</a> <a class="btn gray" id="openApp" title="Opens the Brickworld app signed in as you">Open Brickworld app</a></div></div></div>
     <div class="box"><h2>Recently Played</h2><div class="in" style="display:flex;gap:10px;flex-wrap:wrap" id="recent"></div></div>
   </div><div class="r">
     <div class="box"><h2>Friends (${fr.length})</h2><div class="in friends">${fr.map(f=>`<div class="friend"><img src="${headThumb(f.look)}"><div>${esc(f.name)}</div>
@@ -470,6 +493,7 @@ function pageHome(){
   const rec=$('#recent');const ids=Object.keys(allPlaces()).sort((a,b)=>(data.visits[b]||0)-(data.visits[a]||0));
   ids.forEach(id=>rec.appendChild(gameCard(id)));
   page.querySelectorAll('[data-join]').forEach(a=>a.onclick=()=>{joinFriend=a.dataset.f;location.hash='play-'+a.dataset.join;});
+  $('#openApp').onclick=()=>{save();location.href=appLink('home');};
 }
 let joinFriend=null;
 function gameCard(id){
@@ -687,7 +711,7 @@ function launch(p){
     const box=document.createElement('div');box.style.margin='8px 0';
     box.innerHTML=`<a class="btn green big" data-app>▶ Brickworld app</a> <a class="btn" data-web>Play in browser</a><div class="small" data-note style="margin-top:8px"></div>`;
     ov.querySelector('.lbody').insertBefore(box,ov.querySelector('.lbody .small'));
-    box.querySelector('[data-app]').onclick=()=>{location.href='brickworld://play/'+p.id;box.querySelector('[data-note]').innerHTML='Opening Brickworld... If nothing happened, install the app first: run <b>Install Brickworld.bat</b> from the Brickworld download.';};
+    box.querySelector('[data-app]').onclick=()=>{location.href=appLink('play',p.id);box.querySelector('[data-note]').innerHTML='Opening Brickworld... If nothing happened, install the app first: run <b>Install Brickworld.bat</b> from the Brickworld download.';};
     box.querySelector('[data-web]').onclick=()=>{box.remove();ov.querySelector('.lbar').style.display='';me_.chosen=true;tick();};
     return;
   }
