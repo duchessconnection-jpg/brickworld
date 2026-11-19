@@ -238,6 +238,9 @@ async function hashPw(name,pw){const txt='brickworld|'+name.toLowerCase()+'|'+pw
   catch(e){let h=0;for(const c of txt)h=(h*131+c.charCodeAt(0))>>>0;return 'x'+h.toString(16);}}
 let dailyMsg='';
 function onLogin(){loadUser();if(Date.now()-data.lastDaily>20*3600e3){data.studs+=25;data.lastDaily=Date.now();dailyMsg='Daily bonus! You got <b>25 Studs</b> for visiting today.';}save();}
+const ownerKey=()=>Object.keys(A.users).find(k=>A.users[k].role==='owner')||null;
+// the Owner stays signed in on this computer: no password needed
+if(!cur()&&ownerKey()){A.session=ownerKey();saveAll();}
 loadUser();if(cur())onLogin();
 function worldName(){const o=Object.values(A.users).find(u=>u.role==='owner');return (o&&o.save&&o.save.name)||'Steven';}
 function signOut(){save();A.session=null;saveAll();loadUser();location.hash='login';}
@@ -582,6 +585,19 @@ function pageAuth(mode){
    ${first?'':mode==='login'?' &nbsp; New here? <a href="#signup">Sign up</a>':' &nbsp; Have an account? <a href="#login">Sign in</a>'}
    <p class="small">Accounts are saved only in this browser. Don't use a password you use for anything else.</p></div></div></div>`;
   const msg=t=>$('#amsg').textContent=t;
+  const ok_=ownerKey();
+  if(ok_&&!first){
+    page.insertAdjacentHTML('afterbegin',`<div style="max-width:400px;margin:30px auto 0"><div class="box"><h2>Owner</h2><div class="in">
+      <a class="btn green big" id="asOwner">▶ Continue as ${esc(ok_)}</a>
+      <p class="small">The Owner account doesn't need a password on this computer.</p>
+      <details><summary class="small" style="cursor:pointer">Forgot the Owner password? Set a new one</summary>
+      <table class="form"><tr><td>New password:</td><td><input class="txt" id="np1" type="password" autocomplete="new-password"></td></tr>
+      <tr><td>Confirm:</td><td><input class="txt" id="np2" type="password" autocomplete="new-password"></td></tr></table>
+      <a class="btn" id="npGo2">Save new password</a> <span class="small" id="npMsg"></span></details></div></div></div>`);
+    $('#asOwner').onclick=()=>{A.session=ok_;onLogin();saveAll();location.hash='home';};
+    $('#npGo2').onclick=async()=>{const a=$('#np1').value,b=$('#np2').value;if(a.length<4){$('#npMsg').textContent='At least 4 characters.';return;}if(a!==b){$('#npMsg').textContent="Passwords don't match.";return;}
+      A.users[ok_].hash=await hashPw(ok_,a);saveAll();$('#npMsg').textContent='Saved! The Owner password is changed.';};
+  }
   const go=async()=>{
     const u=$('#au').value.trim(),pw=$('#ap').value;
     if(mode==='signup'){
