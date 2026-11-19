@@ -676,7 +676,7 @@ function route(){
   if(studio&&!h.startsWith('edit-')){studio.stop();studio=null;}
   if(launching&&!h.startsWith('play-')){launching.ov.remove();launching=null;}
   if(!cur()&&h!=='login'&&h!=='signup'){document.body.classList.remove('ingame');location.hash='login';if(h==='login')return;updateHdr();pageAuth('login');return;}
-  if(h.startsWith('play-')){const p=allPlaces()[h.slice(5)];if(!p){location.hash='games';return;}if(game){document.body.classList.add('ingame');return;}if(!launching)launch(p);return;}
+  if(h.startsWith('play-')){const p=allPlaces()[h.slice(5)];if(!p){location.hash='games';return;}if(game){document.body.classList.add('ingame');return;}if(!launching){document.body.classList.remove('ingame');updateHdr();launch(p);}return;}
   if(h.startsWith('edit-')){const p=A.places[h.slice(5)];if(!p){location.hash='studio';return;}document.body.classList.add('ingame');if(!studio)studio=startStudio(p);return;}
   document.body.classList.remove('ingame');
   if((h==='login'||h==='signup')&&cur()){location.hash='home';return;}
