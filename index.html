@@ -677,11 +677,21 @@ function launch(p){
   const steps=['Starting Brickworld Player...','Connecting to server...','Requesting place info...','Loading bricks...','Joining game...'];
   const me_={ov};launching=me_;let i=0;
   ov.querySelector('[data-x]').onclick=()=>{location.hash=returnTo||'games';returnTo=null;};
-  const tick=()=>{
+  if(!p.custom&&!me_.chosen){
+    // classic launcher choice: the desktop app (opened through brickworld:// links) or the browser
+    ov.querySelector('.lmsg').textContent='How do you want to play?';ov.querySelector('.lbar').style.display='none';
+    const box=document.createElement('div');box.style.margin='8px 0';
+    box.innerHTML=`<a class="btn green big" data-app>▶ Brickworld app</a> <a class="btn" data-web>Play in browser</a><div class="small" data-note style="margin-top:8px"></div>`;
+    ov.querySelector('.lbody').insertBefore(box,ov.querySelector('.lbody .small'));
+    box.querySelector('[data-app]').onclick=()=>{location.href='brickworld://play/'+p.id;box.querySelector('[data-note]').innerHTML='Opening Brickworld... If nothing happened, install the app first: run <b>Install Brickworld.bat</b> from the Brickworld download.';};
+    box.querySelector('[data-web]').onclick=()=>{box.remove();ov.querySelector('.lbar').style.display='';me_.chosen=true;tick();};
+    return;
+  }
+  function tick(){
     if(launching!==me_)return;
     if(i<steps.length){ov.querySelector('.lmsg').textContent=steps[i];ov.querySelector('.lbar i').style.width=((i+1)/steps.length*100)+'%';i++;setTimeout(tick,420+Math.random()*380);}
     else{ov.remove();launching=null;document.body.classList.add('ingame');game=startGame(p);}
-  };
+  }
   tick();
 }
 // ================= router =================
