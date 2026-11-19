@@ -313,8 +313,8 @@ const studImg=(()=>{const c=document.createElement('canvas');c.width=c.height=64
 
 function drawFace(g,id){ // on 256x128 space, face centered at x128
   g.fillStyle='#111';g.strokeStyle='#111';g.lineCap='round';g.lineJoin='round';
-  const eye=(x,y,rx=6.5,ry=13)=>{g.beginPath();g.ellipse(x,y,rx,ry,0,0,7);g.fill();};
-  const smile=(r=38,y=54)=>{g.lineWidth=6;g.beginPath();g.arc(128,y,r,0.2*Math.PI,0.8*Math.PI);g.stroke();};
+  const eye=(x,y,rx=5.5,ry=11)=>{g.beginPath();g.ellipse(x,y,rx,ry,0,0,7);g.fill();};
+  const smile=(r=36,y=50)=>{g.lineWidth=5;g.beginPath();g.arc(128,y,r,0.22*Math.PI,0.78*Math.PI);g.stroke();g.lineWidth=6;};
   switch(id){
     case 'face_grin':eye(104,44);eye(152,44);g.beginPath();g.arc(128,66,36,0,Math.PI);g.closePath();g.fill();g.fillStyle='#fff';g.fillRect(100,66,56,10);break;
     case 'face_cool':g.fillRect(84,34,88,10);g.beginPath();g.roundRect?g.roundRect(86,38,36,24,6):g.rect(86,38,36,24);g.fill();g.beginPath();g.roundRect?g.roundRect(134,38,36,24,6):g.rect(134,38,36,24);g.fill();
@@ -327,7 +327,7 @@ function drawFace(g,id){ // on 256x128 space, face centered at x128
     case 'face_smirk':eye(104,48);eye(152,48);g.lineWidth=6;g.beginPath();g.moveTo(104,86);g.quadraticCurveTo(140,96,160,74);g.stroke();break;
     case 'face_angry':g.lineWidth=6;g.beginPath();g.moveTo(88,28);g.lineTo(116,40);g.moveTo(168,28);g.lineTo(140,40);g.stroke();eye(104,54,6,10);eye(152,54,6,10);g.beginPath();g.arc(128,108,24,1.15*Math.PI,1.85*Math.PI);g.stroke();break;
     case 'face_star':{const star=(x,y,r)=>{g.beginPath();for(let i=0;i<10;i++){const rr=i%2?r*.45:r,a=-Math.PI/2+i*Math.PI/5;g.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr);}g.closePath();g.fill();};star(102,46,15);star(154,46,15);smile(36,58);break;}
-    default:eye(104,48);eye(152,48);smile();
+    default:eye(108,44);eye(148,44);smile();
   }
 }
 const faceTexCache={};
@@ -766,7 +766,7 @@ function startStudio(pl){
   function buildBase(){
     if(baseMesh){scene.remove(baseMesh);baseMesh=null;}scene.remove(grid);
     if(pl.baseplate){const sideM=new THREE.MeshLambertMaterial({color:0x5c5c5c});
-      baseMesh=new THREE.Mesh(new THREE.BoxGeometry(300,2,300),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x7d7d7d,map:studTex(300,300)}),sideM,sideM,sideM]);
+      baseMesh=new THREE.Mesh(new THREE.BoxGeometry(300,2,300),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x3f8f3a,map:studTex(300,300)}),sideM,sideM,sideM]);
       baseMesh.position.y=-1;baseMesh.receiveShadow=true;scene.add(baseMesh);}
     else{grid.position.y=0;scene.add(grid);}
   }
@@ -986,7 +986,7 @@ function startGame(place){
   function makeBaseplate(){
     BASE=300;
     const sideM=new THREE.MeshLambertMaterial({color:0x5c5c5c});
-    const base=new THREE.Mesh(new THREE.BoxGeometry(BASE,2,BASE),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x7d7d7d,map:studTex(BASE,BASE)}),sideM,sideM,sideM]);
+    const base=new THREE.Mesh(new THREE.BoxGeometry(BASE,2,BASE),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x3f8f3a,map:studTex(BASE,BASE)}),sideM,sideM,sideM]);
     base.position.y=-1;base.receiveShadow=true;scene.add(base);
     if(PHYS){const gb=new CANNON.Body({mass:0,shape:new CANNON.Box(new CANNON.Vec3(BASE/2,1,BASE/2))});gb.position.set(0,-1,0);world.addBody(gb);}
   }
@@ -1003,7 +1003,7 @@ function startGame(place){
   }else if(!isObby){
     BASE=300;
     const sideM=new THREE.MeshLambertMaterial({color:0x5c5c5c});
-    const base=new THREE.Mesh(new THREE.BoxGeometry(BASE,2,BASE),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x7d7d7d,map:studTex(BASE,BASE)}),sideM,sideM,sideM]);
+    const base=new THREE.Mesh(new THREE.BoxGeometry(BASE,2,BASE),[sideM,sideM,new THREE.MeshLambertMaterial({color:0x3f8f3a,map:studTex(BASE,BASE)}),sideM,sideM,sideM]);
     base.position.y=-1;base.receiveShadow=true;scene.add(base);
     if(PHYS){const gb=new CANNON.Body({mass:0,shape:new CANNON.Box(new CANNON.Vec3(BASE/2,1,BASE/2))});gb.position.set(0,-1,0);world.addBody(gb);}
     // physics playground: loose brick wall, a tower and balls to knock over
@@ -1062,38 +1062,53 @@ function startGame(place){
     }
     remove(){if(this.body)world.removeBody(this.body);if(this.ff)scene.remove(this.ff.g);if(tagGame&&tagGame.players.includes(this))tagGame.players=tagGame.players.filter(x=>x!==this);scene.remove(this.group);this.tag.remove();this.bub.remove();chars.splice(chars.indexOf(this),1);}
   }
-  let mySpeed=16,myJump=50,god=false;
+  let mySpeed=16,myJump=50,god=false;const jumpTimes=[];let stillT=0;
   const SPEED=16,GRAV=196.2,JUMPV=50,R=.95,H=5.2; // walk 16 studs/s, gravity 196.2 studs/s², jump power 50
   function circleBox(px,pz,b,r){const cx=clamp(px,b.min.x,b.max.x),cz=clamp(pz,b.min.z,b.max.z);const dx=px-cx,dz=pz-cz;return{hit:dx*dx+dz*dz<r*r,dx,dz,d:Math.sqrt(dx*dx+dz*dz)};}
+  // box collision: each axis is pushed out of bricks on its own, so corners and seams never trap you
+  const HW=.9,STEP=1.1;
+  const overlap=(b,x,y,z)=>x+HW>b.min.x&&x-HW<b.max.x&&z+HW>b.min.z&&z-HW<b.max.z&&y+H>b.min.y+1e-3&&y<b.max.y-1e-3;
+  const blockedAt=(x,y,z)=>boxes.some(b=>overlap(b,x,y,z));
   function step(c,dt,dir,jump){
     if(c.dead)return 0;
     const sp=c.isBot?((c.ai.racing||(tagGame&&tagGame.it===c))?16.5:(tagGame&&tagGame.players.includes(c)?15:(isObby?15.5:13))):mySpeed;
     c.vel.x=dir.x*sp;c.vel.z=dir.z*sp;
-    if(jump&&c.grounded){c.vel.y=c===me?myJump:JUMPV;c.grounded=false;if(c===me)SFX.jump();}
+    if(jump&&c.grounded){c.vel.y=c===me?myJump:JUMPV;c.grounded=false;if(c===me){SFX.jump();jumpTimes.push(playTime);}}
     const wasAir=!c.grounded,fallV=c.vel.y;
     c.vel.y-=GRAV*dt;
-    const ox=c.pos.x,oz=c.pos.z;c.pos.x+=c.vel.x*dt;c.pos.z+=c.vel.z*dt;
-    for(const b of boxes){
-      if(c.pos.y>=b.max.y-.01||c.pos.y+H<=b.min.y)continue;
-      const h=circleBox(c.pos.x,c.pos.z,b,R);if(!h.hit)continue;
-      if(b.kill){die(c);return 0;}
-      if(c.grounded&&b.max.y-c.pos.y<=1.1){c.pos.y=b.max.y;continue;}
-      if(h.d>1e-4){const p=(R-h.d)/h.d;c.pos.x+=h.dx*p;c.pos.z+=h.dz*p;}else{c.pos.x=ox;c.pos.z=oz;}
+    const ox=c.pos.x,oz=c.pos.z,P=c.pos;
+    const mx=c.vel.x*dt,my=c.vel.y*dt,mz=c.vel.z*dt;
+    const n=Math.max(1,Math.ceil(Math.max(Math.abs(mx),Math.abs(my),Math.abs(mz))/.45));
+    let landed=false,landBox=null,bumped=false;
+    for(let k=0;k<n;k++){
+      P.x+=mx/n;
+      for(const b of boxes)if(overlap(b,P.x,P.y,P.z)){
+        if(b.kill){die(c);return 0;}
+        if(c.grounded&&b.max.y-P.y<=STEP&&!blockedAt(P.x,b.max.y,P.z))P.y=b.max.y;
+        else if(mx>0)P.x=b.min.x-HW;else if(mx<0)P.x=b.max.x+HW;
+      }
+      P.z+=mz/n;
+      for(const b of boxes)if(overlap(b,P.x,P.y,P.z)){
+        if(b.kill){die(c);return 0;}
+        if(c.grounded&&b.max.y-P.y<=STEP&&!blockedAt(P.x,b.max.y,P.z))P.y=b.max.y;
+        else if(mz>0)P.z=b.min.z-HW;else if(mz<0)P.z=b.max.z+HW;
+      }
+      P.y+=my/n;
+      for(const b of boxes)if(overlap(b,P.x,P.y,P.z)){
+        if(b.kill){die(c);return 0;}
+        if(my<=0){P.y=b.max.y;landed=true;landBox=b;}else{P.y=b.min.y-H;bumped=true;}
+      }
+      if(BASE&&Math.abs(P.x)<=BASE/2&&Math.abs(P.z)<=BASE/2&&P.y<0&&P.y>-4){P.y=0;landed=true;}
     }
-    const prevY=c.pos.y;c.pos.y+=c.vel.y*dt;
-    let ground=-Infinity,gb=null;
-    if(BASE&&Math.abs(c.pos.x)<=BASE/2&&Math.abs(c.pos.z)<=BASE/2)ground=0;
-    for(const b of boxes){
-      const h=circleBox(c.pos.x,c.pos.z,b,R*.7);if(!h.hit)continue;
-      if(prevY>=b.max.y-.05&&b.max.y>ground){ground=b.max.y;gb=b;}
-      else if(c.vel.y>0&&prevY+H<=b.min.y+.05&&c.pos.y+H>b.min.y){c.pos.y=b.min.y-H;c.vel.y=0;}
-    }
-    if(c.pos.y<=ground){if(c===me&&wasAir&&fallV<-30)SFX.land(Math.min(1,-fallV/120));c.pos.y=ground;c.vel.y=0;c.grounded=true;c.ground=gb;if(gb){if(gb.kill){die(c);return 0;}onLand(c,gb);}}
-    else{c.grounded=c.pos.y-ground<.05;if(!c.grounded)c.ground=null;}
-    if(c.pos.y<(isObby?-60:-80)){die(c);return 0;}
+    if(bumped&&c.vel.y>0)c.vel.y=0;
+    if(landed){
+      if(c===me&&wasAir&&fallV<-30)SFX.land(Math.min(1,-fallV/120));
+      c.vel.y=0;c.grounded=true;c.ground=landBox;if(landBox)onLand(c,landBox);
+    }else{c.grounded=false;c.ground=null;}
+    if(P.y<(isObby?-60:-80)){die(c);return 0;}
     c.moving=dir.lengthSq()>.01;
     if(c.moving)c.yaw+=angDiff(c.yaw,Math.atan2(dir.x,dir.z))*Math.min(1,dt*12);
-    return Math.hypot(c.pos.x-ox,c.pos.z-oz);
+    return Math.hypot(P.x-ox,P.z-oz);
   }
   function onLand(c,b){
     if(!isObby||b.idx===undefined)return;
@@ -1282,9 +1297,9 @@ function startGame(place){
     let name=forced&&!used.has(forced)?forced:null;
     if(!name){const free=BOT_NAMES.filter(n=>!used.has(n)&&n!==me.name);if(!free.length)return;name=pick(free);}
     const b=new Char(name,friendLook(name)||randomLook(),true);
-    {const h=hashStr(name);b.traits={obey:.3+(h%97)/97*.6,style:['explorer','parkour','social','tagger','chill'][h%5]};}
+    {const h=hashStr(name);b.traits={obey:.3+(h%97)/97*.6,style:['explorer','parkour','social','tagger','chill'][h%5],chatty:.7+(h%13)/13*.8};}
     if(isCustom&&!silent)creditVisit();
-    b.ai={state:'idle',t:rand(1,3),target:new THREE.Vector3(),follow:false,stay:false,racing:false,chatT:rand(8,22),blocked:0,leaving:false,jumpNow:0,jumpAt:rand(3.5,6)};
+    b.ai={state:'idle',t:rand(1,3),target:new THREE.Vector3(),follow:false,stay:false,racing:false,chatT:rand(8,22),blocked:0,leaving:false,jumpNow:0,jumpAt:rand(.6,1.9),said:{},nearT:0};
     spawnAt(b);b.yaw=rand(0,6.28);
     if(silent){ // was already in this server before you joined: put them somewhere around the map
       if(isObby){const k=Math.floor(rand(0,Math.min(18,course.length-2)));b.stage=k;b.cp=course.filter(c=>c.cp&&c.idx<=k).pop()||spawnBox;const box=course[k];boxCenter(box,b.pos);}
@@ -1395,8 +1410,9 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
   function boxCenter(b,v){return v.set((b.min.x+b.max.x)/2,b.max.y,(b.min.z+b.max.z)/2);}
   function botThink(b,dt){
     const ai=b.ai;tmp.set(0,0,0);ai.wantJump=false;
+    ai.nearT=(b.pos.distanceTo(me.pos)<5&&me.moving)?(ai.nearT||0)+dt:0;
     ai.chatT-=dt;
-    if(ai.chatT<=0){ai.chatT=rand(14,35);if(!ai.leaving&&b.pos.distanceTo(me.pos)<90&&Math.random()<.75)b.say(pick(LINES.idle));}
+    if(ai.chatT<=0){ai.chatT=rand(10,26)/(b.traits?.chatty||1);if(!ai.leaving&&b.pos.distanceTo(me.pos)<90&&Math.random()<.8){const line=awareLine(b)||pick(LINES.idle);if(line)b.say(line);}}
     if(ai.leaving||b.dead)return tmp;
     if(ai.follow){
       ai.followT=(ai.followT??80)-dt;
@@ -1409,9 +1425,11 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
       if(b.finished&&!ai.done){ai.done=true;ai.state='idle';}
       if(!ai.done){
         boxCenter(next,ai.target);tmp.subVectors(ai.target,b.pos);
-        if(b.grounded&&b.ground&&b.ground!==next){
-          const h=circleBox(b.pos.x,b.pos.z,next,0);
-          if(h.d<ai.jumpAt){ai.wantJump=true;ai.jumpAt=rand(3.2,6.3);}
+        if(b.ground&&b.ground.cp&&b.grounded&&ai.restAt!==b.ground.idx){ai.restAt=b.ground.idx;ai.rest=rand(.5,3);}
+        if((ai.rest||0)>0){ai.rest-=dt;tmp.set(0,0,0);}
+        else if(b.grounded&&b.ground&&b.ground!==next){
+          const l=Math.hypot(tmp.x,tmp.z)||1,g=b.ground,px=b.pos.x+tmp.x/l*ai.jumpAt,pz=b.pos.z+tmp.z/l*ai.jumpAt;
+          if(px<g.min.x||px>g.max.x||pz<g.min.z||pz>g.max.z){ai.wantJump=true;const r=Math.random();ai.jumpAt=r<.09?rand(-1.6,-1):r<.16?rand(4.5,6.5):rand(.6,1.9);}
         }
         for(const k of boxes)if(k.kill&&Math.abs(k.min.y-b.pos.y)<.5&&circleBox(b.pos.x,b.pos.z,k,2.4).hit&&b.grounded)ai.wantJump=true;
       }else{ai.t-=dt;if(ai.t<=0){ai.t=rand(3,7);const f=course[course.length-1];ai.target.set(rand(f.min.x+2,f.max.x-2),0,rand(f.min.z+2,f.max.z-2));}tmp.subVectors(ai.target,b.pos);if(Math.hypot(tmp.x,tmp.z)<1.5)tmp.set(0,0,0);}
@@ -1432,11 +1450,11 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
         tmp.subVectors(ai.target,b.pos);
         const hd=Math.hypot(tmp.x,tmp.z);
         // jump across gaps when the next spot is up on another brick (parkour, tower, benches)
-        if(b.grounded&&b.ground&&!b.ground.kill&&ai.target.y>.5){const g=b.ground;const over=ai.target.x>=g.min.x&&ai.target.x<=g.max.x&&ai.target.z>=g.min.z&&ai.target.z<=g.max.z;if(!over&&hd<ai.jumpAt+.5)ai.wantJump=true;}
+        if(b.grounded&&b.ground&&!b.ground.kill&&ai.target.y>.5&&hd>.01){const g=b.ground;const over=ai.target.x>=g.min.x&&ai.target.x<=g.max.x&&ai.target.z>=g.min.z&&ai.target.z<=g.max.z;const px=b.pos.x+tmp.x/hd*ai.jumpAt,pz=b.pos.z+tmp.z/hd*ai.jumpAt;if(!over&&(px<g.min.x||px>g.max.x||pz<g.min.z||pz>g.max.z)){ai.wantJump=true;ai.jumpAt=rand(.6,1.9);}}
         if(hd<1.6||ai.t<=0){
           ai.come=false;
           if(ai.racing){ai.racing=false;if(b.pos.y>9)b.say(pick(LINES.win));else{ai.target.set(30,0,13);ai.racing=true;ai.t=15;ai.state='walk';return tmp.set(0,0,0);}}
-          if(ai.route&&ai.ri<ai.route.length-1&&ai.t>0){ai.ri++;ai.target.copy(ai.route[ai.ri]);ai.t=10;ai.jumpAt=rand(4.5,6);return finish();}
+          if(ai.route&&ai.ri<ai.route.length-1&&ai.t>0){ai.ri++;ai.target.copy(ai.route[ai.ri]);ai.t=10;return finish();}
           if(ai.route){ai.route=null;if(ai.t>0&&Math.random()<.5)b.say(pick(ai.act==='parkour'?['made it!','ez parkour','first try lol','im on top']:['view from up here is cool','i made it to the top','come up here']));}
           if(ai.act==='bench'&&ai.t>0){b.sitting=true;ai.state='sit';ai.t=rand(10,25);ai.act=null;return tmp.set(0,0,0);}
           ai.act=null;ai.state='idle';ai.t=rand(2,6);tmp.set(0,0,0);
@@ -1449,6 +1467,33 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
     }
     return finish();
     function finish(){tmp.y=0;const l=tmp.length();if(l>.001)tmp.divideScalar(l);if(l>.001)b.sitting=false;return tmp;}
+  }
+  // ---- AI players notice what's going on and talk about it, like real players ----
+  function awareLine(b){
+    const ai=b.ai,d=b.pos.distanceTo(me.pos),opts=[];ai.said=ai.said||{};
+    const add=(w,line,key)=>{if(!(key&&ai.said[key]))opts.push([w,line,key]);};
+    if(d<18&&!ai.said.greet)add(3,pick(['hey '+me.name,'hi '+me.name,'yo '+me.name,'wsg '+me.name]),'greet');
+    const hat=ITEM[me.look.hat];
+    if(hat&&hat.id!=='hat_none'&&d<20){const h=hat.name.toLowerCase();add(2,pick(['nice '+h+' '+me.name,"where'd u get that "+h,'i want that '+h+' so bad','ur '+h+' is cool']),'hat');}
+    const face=ITEM[me.look.face];
+    if(face&&face.id!=='face_smile'&&d<14)add(1,pick(['lol ur face','i like ur '+face.name.toLowerCase()+' face']),'face');
+    const shirt=ITEM[me.look.shirt];
+    if(shirt&&shirt.id!=='shirt_none'&&d<14)add(1,pick(['cool shirt '+me.name,'i like ur '+shirt.name.toLowerCase()]),'shirt');
+    if(isHangout&&me.pos.y>9&&d<50)add(2,pick([me.name+" how'd u get up there",me.name+' is on the tower lol','wait for me '+me.name]),'high');
+    if(stillT>25&&d<25)add(3,pick([me.name+' u afk?',me.name+'??','is '+me.name+' afk lol']));
+    if(jumpTimes.filter(t=>playTime-t<6).length>=5&&d<25)add(3,pick(['why u jumping so much lol','bunny hopping lol','stop jumping '+me.name+' lol']));
+    if((ai.nearT||0)>10&&!ai.follow)add(3,pick(['why u following me lol','u can follow me if u want','where we going '+me.name]),'nearme');
+    if(isObby){if(me.stage>b.stage+3)add(2,pick([me.name+' ur so good at this','how r u so fast '+me.name,'wait for me']));if(me.stage+3<b.stage)add(2,pick(['come on '+me.name+' u can do it','stage '+b.stage+' lets gooo']));}
+    if(isHangout&&b.pos.y>9)add(1,pick(['the view from up here is cool','im on top of the tower!','come up here']));
+    if(b.sitting)add(1,pick(['these benches are comfy lol','just chilling','anyone wanna sit']));
+    if(isCustom)add(1,pick(['who built this place',me.name+' did u make this?','this place is cool']),'built');
+    const others=bots().filter(o=>o!==b&&!o.ai.leaving&&o.pos.distanceTo(b.pos)<12);
+    if(others.length){const o=pick(others),oh=ITEM[o.look.hat];add(1.5,pick([o.name+' wanna go to the tower',o.name+' lets play tag',oh&&oh.id!=='hat_none'?o.name+' ur '+oh.name.toLowerCase()+' is cool':o.name+' wsg','hi '+o.name]));}
+    const hats=ITEMS.filter(i=>i.type==='hat'&&i.price>0).map(i=>i.name.toLowerCase());
+    add(.8,pick(['i just bought the '+pick(hats),'i got my daily studs','who made this game its cool','anyone wanna be friends','this is my favorite place','saving up for the golden crown']));
+    let x=Math.random()*opts.reduce((a,o)=>a+o[0],0);
+    for(const o of opts){x-=o[0];if(x<0){if(o[2])ai.said[o[2]]=true;return o[1];}}
+    return null;
   }
   // ---- what AI players decide to do on their own ----
   const PARKOUR=[[-19,0,-30],[-21,1,-30],[-23.5,2,-30],[-26,3,-30],[-30,4,-30],[-38,6,-34],[-46,8,-30],[-52,10,-22],[-48,12,-13],[-40,14,-8]];
@@ -1540,6 +1585,7 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
     const fx=-Math.sin(camYaw),fz=-Math.cos(camYaw),rx=Math.cos(camYaw),rz=-Math.sin(camYaw);
     pdir.set(fx*f+rx*s,0,fz*f+rz*s);if(pdir.length()>1)pdir.normalize();
     step(me,dt,pdir,keys.Space||touchJump);animate(me,dt);
+    stillT=me.moving?0:stillT+dt;while(jumpTimes.length&&playTime-jumpTimes[0]>8)jumpTimes.shift();
     for(const b of bots()){
       const d=botThink(b,dt).clone();
       let jump=b.ai.wantJump;if(b.ai.jumpNow>0&&b.grounded){jump=true;b.ai.jumpNow--;}
