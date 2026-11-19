@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Steven's Brickworld</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='3' width='22' height='26' rx='7' fill='%23f5cd30' stroke='%23000' stroke-width='1.5'/%3E%3Cellipse cx='12' cy='13' rx='1.7' ry='3.2' fill='%23111'/%3E%3Cellipse cx='20' cy='13' rx='1.7' ry='3.2' fill='%23111'/%3E%3Cpath d='M10 19 Q16 25 22 19' stroke='%23111' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:#dfe3e8 repeating-linear-gradient(45deg,#e4e8ec 0 8px,#dde1e6 8px 16px);font:12px Verdana,Geneva,Tahoma,sans-serif;color:#222}
@@ -237,7 +238,7 @@ async function hashPw(name,pw){const txt='brickworld|'+name.toLowerCase()+'|'+pw
   try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
   catch(e){let h=0;for(const c of txt)h=(h*131+c.charCodeAt(0))>>>0;return 'x'+h.toString(16);}}
 let dailyMsg='';
-function onLogin(){loadUser();if(Date.now()-data.lastDaily>20*3600e3){data.studs+=25;data.lastDaily=Date.now();dailyMsg='Daily bonus! You got <b>25 Studs</b> for visiting today.';}save();}
+function onLogin(){loadUser();if(Date.now()-data.lastDaily>20*3600e3){data.studs+=10;data.lastDaily=Date.now();dailyMsg='Daily Studs! You got <b>10 Studs</b> for logging in today.';}if(!data.badges)data.badges={};save();}
 const ownerKey=()=>Object.keys(A.users).find(k=>A.users[k].role==='owner')||null;
 // the Owner stays signed in on this computer: no password needed
 if(!cur()&&ownerKey()){A.session=ownerKey();saveAll();}
@@ -276,6 +277,7 @@ function updateHdr(){
   const cur_=(location.hash||'#home').slice(1);
   $('#nav').innerHTML=links.map(([k,t])=>`<a href="#${k}" data-p="${k}" class="${k===cur_?'on':''}">${t}</a>`).join('');
   document.querySelectorAll('.liveStuds').forEach(e=>e.textContent=data.studs);
+  const ft=$('#foot');if(ft)ft.textContent=wn+"'s Brickworld · a private fan-made brick game · Not affiliated with any other game company";
 }
 function addStuds(n){data.studs+=n;save();updateHdr();if(n>0)SFX.coin();}
 
@@ -419,7 +421,7 @@ function gameThumb(id,w=360,h=220){
 // ================= places =================
 const PLACES={
   hangout:{id:'hangout',name:'Classic Baseplate Hangout',desc:'Hang out on the old-school studded baseplate. Climb the blue tower, try the floating parkour, chill on the benches and meet new people.',maxAI:5},
-  obby:{id:'obby',name:'Rainbow Sky Obby',desc:'36 stages of jumping across rainbow bricks in the sky. Watch out for red kill bricks! Checkpoints every 6 stages. Finish to earn 25 Studs.',maxAI:4},
+  obby:{id:'obby',name:'Rainbow Sky Obby',desc:'36 stages of jumping across rainbow bricks in the sky. Watch out for red kill bricks! Checkpoints every 6 stages. Beat it to earn the Obby Master badge.',maxAI:4},
 };
 const BOT_NAMES=['blockyben','starlight_kat','turbo_toast','mintyfresh09','captaincheese','glitchwizard','sunnyside_sam','frostbyte77','waffle_knight','echo_runner','lunarfox','brickbuilder3000','pixelpip','noodle_ninja','skyhopper','cosmic_carl','jellybean_jo','rocketmax'];
 // consistent "friends" with fixed looks
@@ -453,7 +455,8 @@ function pageHome(){
     <div class="box"><h2>Hello, ${esc(data.name)}!</h2><div class="in" style="display:flex;gap:14px;align-items:center">
       <img src="${avatarThumb(data.av)}" width="130" height="130" style="border:1px solid #c3cbd6;background:#e9edf2">
       <div><p style="margin-top:0">Welcome back to your Brickworld. You have <span class="studs"><i></i><span class="liveStuds">${data.studs}</span> Studs</span>.</p>
-      <p>Earn Studs by playing (1 Stud every minute), beating the Obby, and visiting every day. Spend them in the <a href="#catalog">Catalog</a>.</p>
+      <p>Studs work like the old Tix: you get <b>10 free Studs every day you log in</b>, and you earn Studs when people visit the places you build in <a href="#studio">Studio</a>. Spend them in the <a href="#catalog">Catalog</a>.</p>
+      <p class="small">Badges: ${Object.values(data.badges||{}).map(esc).join(', ')||'none yet'}</p>
       <a class="btn" href="#avatar">Change my avatar</a> <a class="btn green" href="#games">Play games</a></div></div></div>
     <div class="box"><h2>Recently Played</h2><div class="in" style="display:flex;gap:10px;flex-wrap:wrap" id="recent"></div></div>
   </div><div class="r">
@@ -483,7 +486,7 @@ function pageGames(){
     const p=allPlaces()[id];const row=document.createElement('div');row.style.cssText='display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px dotted #c3cbd6;flex-wrap:wrap';
     const cv=gameThumb(id);cv.style.cssText='width:260px;border:1px solid #9aa6b5;cursor:pointer';cv.onclick=()=>location.hash='play-'+id;row.appendChild(cv);
     row.insertAdjacentHTML('beforeend',`<div style="flex:1;min-width:200px"><div style="font-size:16px;font-weight:bold;margin-bottom:4px"><a href="#play-${id}">${esc(p.name)}</a></div>
-      <div class="small" style="margin-bottom:8px">Creator: ${esc(p.creator||worldName())} · Your visits: ${data.visits[id]||0} · Playing now: ${BOT_NAMES.filter(n=>presence(n)===id).length}</div>
+      <div class="small" style="margin-bottom:8px">Creator: ${esc(p.creator||worldName())} · Your visits: ${data.visits[id]||0}${p.custom?` · Total visits: ${p.visits||0}`:''} · Playing now: ${BOT_NAMES.filter(n=>presence(n)===id).length}</div>
       <p>${esc(p.desc||'A place built in Brickworld Studio.')}</p><a class="btn green big" href="#play-${id}">▶ Play</a></div>`);
     gl.appendChild(row);
   });
@@ -566,7 +569,8 @@ function pageProfile(){
     <tr><td>Studs:</td><td><span class="liveStuds">${data.studs}</span></td></tr>
     <tr><td>Minutes played:</td><td>${data.played}</td></tr>
     <tr><td>Place visits:</td><td>${Object.values(data.visits).reduce((a,b)=>a+b,0)}</td></tr>
-    <tr><td>Obby wins:</td><td>${data.wins.obby||0}</td></tr></table></div></div>
+    <tr><td>Obby wins:</td><td>${data.wins.obby||0}</td></tr>
+    <tr><td>Badges:</td><td>${Object.values(data.badges||{}).map(esc).join(', ')||'none yet'}</td></tr></table></div></div>
   <div class="box"><h2>Inventory (${own.length})</h2><div class="in"><div class="grid">${own.map(id=>`<div class="card"><img src="${itemThumb(ITEM[id])}"><div class="nm">${esc(ITEM[id].name)}</div></div>`).join('')||'Nothing yet. Visit the <a href="#catalog">Catalog</a>!'}</div></div></div>
   <div class="box"><h2>Save data</h2><div class="in"><p style="margin-top:0">Your avatar, Studs and items are saved in this browser only. If you clear your browser data they'll reset.</p><a class="btn gray" id="resetAll">Reset everything</a> <span class="small" id="resetMsg"></span></div></div></div></div>`;
   $('#saveName').onclick=()=>{const v=$('#uname').value.trim().replace(/[^A-Za-z0-9_ ]/g,'').slice(0,20);if(v.length<3){$('#nameMsg').textContent='Name must be at least 3 letters.';return;}data.name=v;save();updateHdr();$('#nameMsg').textContent='Saved!';};
@@ -916,14 +920,14 @@ function startGame(place){
 
   const renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);
-  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
   root.prepend(renderer.domElement);
   const scene=new THREE.Scene();
   const skyCol=isObby?0x9cc8f2:0x87b5e5;
   scene.background=new THREE.Color(skyCol);scene.fog=new THREE.Fog(skyCol,isObby?260:180,isObby?600:420);
   const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,1200);
-  scene.add(new THREE.HemisphereLight(0xdfefff,0x6a6a6a,.75));
-  const sun=new THREE.DirectionalLight(0xffffff,.75);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+  scene.add(new THREE.HemisphereLight(0xdfefff,0x5a5a5a,.62));
+  const sun=new THREE.DirectionalLight(0xffffff,.9);sun.castShadow=true;sun.shadow.bias=-.0005;sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-70,right:70,top:70,bottom:-70,near:1,far:300});scene.add(sun,sun.target);
   const studTex=(rx,ry)=>{const t=new THREE.CanvasTexture(studImg);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.anisotropy=renderer.capabilities.getMaxAnisotropy();return t;};
 
@@ -1032,14 +1036,14 @@ function startGame(place){
       T(()=>{b.style.opacity=0;T(()=>b.remove(),650);},9000);
       logChat(this.name,text);onChat(this,text);
     }
-    remove(){if(this.body)world.removeBody(this.body);scene.remove(this.group);this.tag.remove();this.bub.remove();chars.splice(chars.indexOf(this),1);}
+    remove(){if(this.body)world.removeBody(this.body);if(this.ff)scene.remove(this.ff.g);if(tagGame&&tagGame.players.includes(this))tagGame.players=tagGame.players.filter(x=>x!==this);scene.remove(this.group);this.tag.remove();this.bub.remove();chars.splice(chars.indexOf(this),1);}
   }
   let mySpeed=16,myJump=50,god=false;
   const SPEED=16,GRAV=196.2,JUMPV=50,R=.95,H=5.2; // walk 16 studs/s, gravity 196.2 studs/s², jump power 50
   function circleBox(px,pz,b,r){const cx=clamp(px,b.min.x,b.max.x),cz=clamp(pz,b.min.z,b.max.z);const dx=px-cx,dz=pz-cz;return{hit:dx*dx+dz*dz<r*r,dx,dz,d:Math.sqrt(dx*dx+dz*dz)};}
   function step(c,dt,dir,jump){
     if(c.dead)return 0;
-    const sp=c.isBot?(c.ai.racing?17:(isObby?15.5:13)):mySpeed;
+    const sp=c.isBot?((c.ai.racing||(tagGame&&tagGame.it===c))?16.5:(tagGame&&tagGame.players.includes(c)?15:(isObby?15.5:13))):mySpeed;
     c.vel.x=dir.x*sp;c.vel.z=dir.z*sp;
     if(jump&&c.grounded){c.vel.y=c===me?myJump:JUMPV;c.grounded=false;if(c===me)SFX.jump();}
     const wasAir=!c.grounded,fallV=c.vel.y;
@@ -1072,19 +1076,32 @@ function startGame(place){
     if(b.idx>c.stage){c.stage=b.idx;if(c===me)updateStage();refreshBoard();}
     if(b.cp&&b.idx>=(c.cp.idx||0))c.cp=b;
     if(b.finish&&!c.finished){c.finished=true;
-      if(c===me){data.wins.obby=(data.wins.obby||0)+1;SFX.win();addStuds(25);toast('YOU WIN!<br><span style="font-size:18px">+25 Studs</span>');sys(`${me.name} beat the obby! (+25 Studs)`);
+      if(c===me){data.wins.obby=(data.wins.obby||0)+1;SFX.win();data.badges=data.badges||{};const newB=!data.badges.obby;data.badges.obby='Obby Master';save();toast('YOU WIN!'+(newB?'<br><span style="font-size:18px">Badge: Obby Master</span>':''));sys(`${me.name} beat the obby!`);
         bots().forEach(bt=>{if(Math.random()<.6)sayLater(bt,['gg','gg '+me.name,'how did u do that','pro','nice!!','GG']);});}
       else{sys(`${c.name} beat the obby!`);T(()=>chars.includes(c)&&c.say(pick(['GG','i did it!!','first try (not really)','finally lol'])),900);}
     }
   }
+  const FF_GEO=new THREE.SphereGeometry(3.3,28,18);
+  const SPARK_GEO=(()=>{const g=new THREE.BufferGeometry(),n=60,a=new Float32Array(n*3);for(let i=0;i<n;i++){const u=Math.random()*2-1,t=Math.random()*6.28,r=3.1*Math.cbrt(Math.random());const q=Math.sqrt(1-u*u);a[i*3]=q*Math.cos(t)*r;a[i*3+1]=u*r*1.1;a[i*3+2]=q*Math.sin(t)*r;}g.setAttribute('position',new THREE.BufferAttribute(a,3));return g;})();
+  function giveForceField(c,sec){
+    if(!c.ff){
+      const g=new THREE.Group();
+      g.add(new THREE.Mesh(FF_GEO,new THREE.MeshBasicMaterial({color:0x5aa8ff,transparent:true,opacity:.16,depthWrite:false,blending:THREE.AdditiveBlending})));
+      g.add(new THREE.Points(SPARK_GEO,new THREE.PointsMaterial({color:0xbfe6ff,size:.32,transparent:true,opacity:.95,depthWrite:false,blending:THREE.AdditiveBlending})));
+      scene.add(g);c.ff={g,t:0};
+    }
+    c.ff.t=sec;c.ff.g.visible=true;
+  }
   function spawnAt(c){
-    const b=isObby?c.cp:spawnBox;c.pos.set(rand(b.min.x+1.5,b.max.x-1.5),b.max.y,rand(b.min.z+1.5,b.max.z-1.5));c.vel.set(0,0,0);c.dead=false;c.group.visible=true;
+    const b=isObby?c.cp:spawnBox;c.pos.set(rand(b.min.x+1.5,b.max.x-1.5),b.max.y,rand(b.min.z+1.5,b.max.z-1.5));c.vel.set(0,0,0);c.dead=false;c.group.visible=true;c.sitting=false;
+    giveForceField(c,isObby&&c.cp&&c.cp.idx>0?3:8);
     if(c.isBot&&c.ai){c.ai.target.copy(c.pos);c.ai.state='idle';c.ai.t=rand(.5,2);}
   }
   const debris=[];
   function die(c,force){
     if(c.dead)return;
     if(c===me&&god&&!force&&c.pos.y>-50)return;
+    if(c.ff&&c.ff.t>0&&!force&&c.pos.y>-50)return; // protected by the spawn bubble
     c.dead=true;c.group.visible=false;
     {const d=c===me?1:Math.max(0,1-c.pos.distanceTo(me.pos)/60);if(d>0)SFX.die(d);}
     const cols=[c.look.head,c.look.torso,c.look.larm,c.look.rarm,c.look.lleg,c.look.rleg];
@@ -1103,6 +1120,9 @@ function startGame(place){
     cols.forEach((col,i)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(i?1:1.1,i===1?2:i?2:1.1,1),new THREE.MeshLambertMaterial({color:col}));m.position.copy(c.pos).add(new THREE.Vector3(rand(-1,1),2+i*.4,rand(-1,1)));scene.add(m);
       debris.push({m,v:new THREE.Vector3(rand(-10,10),rand(8,22),rand(-10,10)),r:new THREE.Vector3(rand(-6,6),rand(-6,6),rand(-6,6)),t:1.6});});
     if(c===me)c.deaths=(c.deaths||0)+1;
+    if(c.ff)c.ff.g.visible=false;
+    // nearby players react, like real people would
+    bots().forEach(o=>{if(o!==c&&!o.ai.leaving&&o.pos.distanceTo(c.pos)<35&&Math.random()<(c===me?.25:.12))T(()=>{if(chars.includes(o))o.say(pick(c===me?['lol','rip','oof','u ok?','LOL','rip '+me.name]:['lol','rip','RIP '+c.name,'f']));},rand(500,1800));});
     T(()=>{if(chars.includes(c))spawnAt(c);},1500);
     if(c.isBot&&isObby&&Math.random()<.35)T(()=>chars.includes(c)&&c.say(pick(['NOOO','bruh','that was so close','lag','ugh','how','again??','i hate that jump'])),1700);
   }
@@ -1110,15 +1130,16 @@ function startGame(place){
   function animate(c,dt){
     c.animT=(c.animT||0)+dt;
     let lL=0,rL=0,lA=0,rA=0,lAz=0,rAz=0,k=Math.min(1,dt*16);
-    if(c.spin>0){c.spin-=dt;c.yaw+=dt*10;const w=Math.sin(c.animT*14)*.5;lA=-2.9+w;rA=-2.9-w;lAz=-.3;rAz=.3;lL=.3;rL=-.3;}
+    if(c.sitting&&c.grounded&&!c.moving){lL=rL=-1.5;lA=rA=-.45;}
+    else if(c.spin>0){c.spin-=dt;c.yaw+=dt*10;const w=Math.sin(c.animT*14)*.5;lA=-2.9+w;rA=-2.9-w;lAz=-.3;rAz=.3;lL=.3;rL=-.3;}
     else if(!c.grounded){
       if(c.vel.y>0){lA=rA=-Math.PI*.97;lL=.45;rL=-.2;k=Math.min(1,dt*22);}   // jump: arms straight up
       else{lA=rA=-Math.PI*.8;lAz=-.2;rAz=.2;lL=.2;rL=-.2;}                       // falling
     }else if(c.moving){
-      const sp=Math.hypot(c.vel.x,c.vel.z);const prevS=Math.sin(c.walkT);c.walkT+=dt*sp*.62;const sw=Math.sin(c.walkT)*1.05;
+      const sp=Math.hypot(c.vel.x,c.vel.z);const prevS=Math.sin(c.walkT);c.walkT+=dt*sp*.55;const sw=Math.sin(c.walkT)*1.0;
       if(Math.sign(prevS)!==Math.sign(sw)){if(c===me)SFX.step();else{const d=1-c.pos.distanceTo(me.pos)/30;if(d>0)SFX.step(d*.6);}}
       lL=sw;rL=-sw;lA=-sw;rA=sw;
-    }else{c.walkT=0;const b=Math.sin(c.animT*1.7)*.07;lA=b;rA=-b;lAz=-.05-Math.abs(b)*.3;rAz=.05+Math.abs(b)*.3;}
+    }else{c.walkT=0;}
     c.lLeg.rotation.x+=(lL-c.lLeg.rotation.x)*k;c.rLeg.rotation.x+=(rL-c.rLeg.rotation.x)*k;
     c.lArm.rotation.x+=(lA-c.lArm.rotation.x)*k;c.rArm.rotation.x+=(rA-c.rArm.rotation.x)*k;
     c.lArm.rotation.z+=(lAz-c.lArm.rotation.z)*k;c.rArm.rotation.z+=(rAz-c.rArm.rotation.z)*k;
@@ -1227,6 +1248,8 @@ function startGame(place){
     race:['ok go!!','race u to the tower','im so winning this','ready set GO'],
     leave:['ima go play smt','gtg','my mom is calling me','ok im getting off','brb dinner'],
     win:['i win!!','first!!','gg','too easy'],
+    refuse:['nah','im busy rn','maybe later','no lol','in a sec','why tho','nahh im good','not rn'],
+    bored:['ok im gonna go explore','brb gonna go do smt','ima go look around','ok im bored of following lol'],
     name:['im {n}','{n} lol','its {n}'],
   };
   const fill=(s,b)=>s.replace('{p}',me.name).replace('{n}',b.name);
@@ -1235,6 +1258,8 @@ function startGame(place){
     let name=forced&&!used.has(forced)?forced:null;
     if(!name){const free=BOT_NAMES.filter(n=>!used.has(n)&&n!==me.name);if(!free.length)return;name=pick(free);}
     const b=new Char(name,friendLook(name)||randomLook(),true);
+    {const h=hashStr(name);b.traits={obey:.3+(h%97)/97*.6,style:['explorer','parkour','social','tagger','chill'][h%5]};}
+    if(isCustom&&!silent)creditVisit();
     b.ai={state:'idle',t:rand(1,3),target:new THREE.Vector3(),follow:false,stay:false,racing:false,chatT:rand(8,22),blocked:0,leaving:false,jumpNow:0,jumpAt:rand(3.5,6)};
     spawnAt(b);b.yaw=rand(0,6.28);
     if(silent){ // was already in this server before you joined: put them somewhere around the map
@@ -1263,8 +1288,15 @@ function startGame(place){
       if(!who.length)who=[near[0]];
       if(aiReady()&&A.settings.aiChat){aiConverse(who.slice(0,3),text);return;}
       const cmd=re=>re.test(t);
+      // tag: join a running game, or get one going
+      if(/\btag\b/.test(t)&&!isObby){
+        if(tagGame&&!tagGame.players.includes(me)){tagGame.players.push(me);tagGame.players.filter(x=>x!==me).slice(0,2).forEach(x=>sayLater(x,['ok ur in!','yay','run lol','ok '+me.name+' is in']));return;}
+        if(!tagGame&&bs.length>=1){const b0=near[0];if(Math.random()<b0.traits.obey+.2){startTag(b0,true);return;}else{sayLater(b0,LINES.refuse);return;}}
+      }
       for(const b of who){const ai=b.ai;
-        if(cmd(/\bfollow\b/)){ai.follow=true;ai.stay=false;ai.racing=false;sayLater(b,LINES.follow);}
+        if(/\b(follow|stop|stay|come|jump|dance|race)\b/.test(t)&&!target.length&&Math.random()>b.traits.obey){sayLater(b,LINES.refuse);continue;}
+        if(/\b(follow|stop|stay|come|jump|dance|race)\b/.test(t)&&target.length&&Math.random()>b.traits.obey+.25){sayLater(b,LINES.refuse);continue;}
+        if(cmd(/\bfollow\b/)){applyAction(b,'follow');sayLater(b,LINES.follow);}
         else if(cmd(/\b(stop|stay|wait here|unfollow)\b/)){ai.follow=false;ai.stay=true;ai.state='idle';ai.t=rand(15,30);sayLater(b,LINES.stop);}
         else if(cmd(/\bcome\b/)){ai.follow=false;ai.stay=false;ai.state='walk';ai.target.copy(me.pos).add(new THREE.Vector3(rand(-4,4),0,rand(-4,4)));ai.t=20;ai.come=true;sayLater(b,LINES.come);}
         else if(cmd(/\bjump\b/)){later(()=>{ai.jumpNow=3;},300,1200);sayLater(b,LINES.jump);}
@@ -1288,7 +1320,7 @@ function startGame(place){
   function applyAction(b,action){
     const ai=b.ai;if(!ai||ai.leaving)return;
     switch(action){
-      case 'follow':ai.follow=true;ai.stay=false;ai.racing=false;break;
+      case 'follow':ai.follow=true;ai.followT=rand(40,120);ai.stay=false;ai.racing=false;b.sitting=false;break;
       case 'stop':ai.follow=false;ai.stay=true;ai.state='idle';ai.t=rand(15,30);break;
       case 'come':ai.follow=false;ai.stay=false;ai.state='walk';ai.target.copy(me.pos).add(new THREE.Vector3(rand(-4,4),0,rand(-4,4)));ai.t=20;ai.come=true;break;
       case 'jump':ai.jumpNow=3;break;
@@ -1312,7 +1344,7 @@ ${history.slice(-18).join('\n')}
 
 ${text===null?`Nobody has said anything for a bit. Have ${who[0].name} start or continue a conversation the way a real player would: talk to ${me.name} or another player, comment on what is happening in the game, suggest something fun to do here, or bring up something from earlier.`:`${me.name} just said: "${text}"`}
 
-Write the next chat message from each of these players: ${who.map(b=>b.name).join(', ')}. Make them sound like real kids chatting in an online game: casual, mostly lowercase, short (under 20 words), slang like lol, fr, ngl, bruh is fine. Each stays true to their personality, actually responds to what ${me.name} said, remembers the earlier chat, and keeps the conversation going (ask things back, suggest stuff to do in this place). They can talk to each other too. Different players should say different things.
+Write the next chat message from each of these players: ${who.map(b=>b.name).join(', ')}. These are independent players with their own plans; they don't always do what they're told (they can say no, or agree and then get bored later). Make them sound like real kids chatting in an online game: casual, mostly lowercase, short (under 20 words), slang like lol, fr, ngl, bruh is fine. Each stays true to their personality, actually responds to what ${me.name} said, remembers the earlier chat, and keeps the conversation going (ask things back, suggest stuff to do in this place). They can talk to each other too. Different players should say different things.
 Rules: keep it friendly and kid-appropriate (no swearing, no mean or scary stuff). Never ask for or share personal info (real name, age, address, school, passwords, photos) and never suggest meeting up or moving to another app. If someone asks whether they are bots or AI, be honest and playful: they are AI players who live in Brickworld.
 Each player can also do ONE action when it fits what was said: none, follow (follow ${me.name} around), stop (stay where they are), come (walk over to ${me.name}), jump, dance${isHangout?', race (race to the blue tower)':''}, leave (leave the game, only if asked to go away or saying goodbye for real).
 Reply with only JSON: {"replies":[{"name":"player name","text":"their message","action":"none"}]}`;
@@ -1343,6 +1375,8 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
     if(ai.chatT<=0){ai.chatT=rand(14,35);if(!ai.leaving&&b.pos.distanceTo(me.pos)<90&&Math.random()<.75)b.say(pick(LINES.idle));}
     if(ai.leaving||b.dead)return tmp;
     if(ai.follow){
+      ai.followT=(ai.followT??80)-dt;
+      if(ai.followT<=0){ai.follow=false;b.say(pick(LINES.bored));ai.state='idle';ai.t=1;return tmp;}
       if(b.pos.distanceTo(me.pos)>6)tmp.subVectors(me.pos,b.pos);
       if(me.vel.y>25&&b.grounded)ai.wantJump=true;
     }else if(isObby&&!ai.stay&&!(ai.state==='walk'&&ai.come)){
@@ -1357,27 +1391,94 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
         }
         for(const k of boxes)if(k.kill&&Math.abs(k.min.y-b.pos.y)<.5&&circleBox(b.pos.x,b.pos.z,k,2.4).hit&&b.grounded)ai.wantJump=true;
       }else{ai.t-=dt;if(ai.t<=0){ai.t=rand(3,7);const f=course[course.length-1];ai.target.set(rand(f.min.x+2,f.max.x-2),0,rand(f.min.z+2,f.max.z-2));}tmp.subVectors(ai.target,b.pos);if(Math.hypot(tmp.x,tmp.z)<1.5)tmp.set(0,0,0);}
+    }else if(tagGame&&tagGame.players.includes(b)){
+      // playing tag: "it" chases the nearest player, everyone else runs away
+      ai.t-=dt;b.sitting=false;
+      if(tagGame.it===b){
+        let best=null,bd=1e9;for(const p of tagGame.players){if(p===b||p.dead)continue;const d=p.pos.distanceTo(b.pos);if(d<bd){bd=d;best=p;}}
+        if(best){tmp.subVectors(best.pos,b.pos);if(bd<2.8&&tagGame.cool<=0)tagHit(b,best);}
+      }else{
+        const it=tagGame.it,d=it.pos.distanceTo(b.pos);
+        if(d<20){tmp.subVectors(b.pos,it.pos);if(BASE&&Math.hypot(b.pos.x,b.pos.z)>110)tmp.set(-b.pos.x,0,-b.pos.z);if(d<5&&b.grounded&&Math.random()<.04)ai.wantJump=true;}
+        else{if(ai.t<=0||ai.state!=='walk'){ai.state='walk';ai.t=rand(3,6);wanderTarget(ai.target);}tmp.subVectors(ai.target,b.pos);}
+      }
     }else{
       ai.t-=dt;
       if(ai.state==='walk'){
         tmp.subVectors(ai.target,b.pos);
-        if(Math.hypot(tmp.x,tmp.z)<1.6||ai.t<=0){
+        const hd=Math.hypot(tmp.x,tmp.z);
+        // jump across gaps when the next spot is up on another brick (parkour, tower, benches)
+        if(b.grounded&&b.ground&&!b.ground.kill&&ai.target.y>.5){const g=b.ground;const over=ai.target.x>=g.min.x&&ai.target.x<=g.max.x&&ai.target.z>=g.min.z&&ai.target.z<=g.max.z;if(!over&&hd<ai.jumpAt+.5)ai.wantJump=true;}
+        if(hd<1.6||ai.t<=0){
           ai.come=false;
           if(ai.racing){ai.racing=false;if(b.pos.y>9)b.say(pick(LINES.win));else{ai.target.set(30,0,13);ai.racing=true;ai.t=15;ai.state='walk';return tmp.set(0,0,0);}}
-          ai.state='idle';ai.t=rand(2,6);tmp.set(0,0,0);
+          if(ai.route&&ai.ri<ai.route.length-1&&ai.t>0){ai.ri++;ai.target.copy(ai.route[ai.ri]);ai.t=10;ai.jumpAt=rand(4.5,6);return finish();}
+          if(ai.route){ai.route=null;if(ai.t>0&&Math.random()<.5)b.say(pick(ai.act==='parkour'?['made it!','ez parkour','first try lol','im on top']:['view from up here is cool','i made it to the top','come up here']));}
+          if(ai.act==='bench'&&ai.t>0){b.sitting=true;ai.state='sit';ai.t=rand(10,25);ai.act=null;return tmp.set(0,0,0);}
+          ai.act=null;ai.state='idle';ai.t=rand(2,6);tmp.set(0,0,0);
         }
-      }else if(ai.t<=0&&!ai.stay&&!isObby){
-        const r=Math.random();ai.state='walk';ai.t=rand(8,14);
-        if(r<.35)wanderTarget(ai.target);
-        else if(r<.65){const a=rand(0,6.28),d=rand(5,9);ai.target.set(me.pos.x+Math.cos(a)*d,0,me.pos.z+Math.sin(a)*d);}
-        else if(r<.8){const o=pick(bots().filter(x=>x!==b))||me;const a=rand(0,6.28);ai.target.set(o.pos.x+Math.cos(a)*5,0,o.pos.z+Math.sin(a)*5);}
-        else if(r<.9){if(isHangout)ai.target.set(-22,0,26+rand(-1,1));else wanderTarget(ai.target);}
-        else{ai.state='idle';ai.t=rand(2,5);}
-      }else if(ai.state==='idle'&&ai.t<=0&&ai.stay)ai.stay=false;
+      }else if(ai.state==='sit'){if(ai.t<=0){b.sitting=false;ai.state='idle';ai.t=rand(1,3);}}
+      else if(ai.state==='afk'){if(ai.t<=0){ai.state='idle';ai.t=1;if(Math.random()<.6)b.say(pick(['back','im back','ok back']));}}
+      else if(ai.t<=0&&!ai.stay&&!isObby)chooseActivity(b);
+      else if(ai.state==='idle'&&ai.t<=0&&ai.stay)ai.stay=false;
       if(ai.state==='idle'&&b.pos.distanceTo(me.pos)<18&&b.spin<=0)b.yaw+=angDiff(b.yaw,Math.atan2(me.pos.x-b.pos.x,me.pos.z-b.pos.z))*Math.min(1,dt*4);
     }
-    tmp.y=0;const l=tmp.length();if(l>.001)tmp.divideScalar(l);
-    return tmp;
+    return finish();
+    function finish(){tmp.y=0;const l=tmp.length();if(l>.001)tmp.divideScalar(l);if(l>.001)b.sitting=false;return tmp;}
+  }
+  // ---- what AI players decide to do on their own ----
+  const PARKOUR=[[-19,0,-30],[-21,1,-30],[-23.5,2,-30],[-26,3,-30],[-30,4,-30],[-38,6,-34],[-46,8,-30],[-52,10,-22],[-48,12,-13],[-40,14,-8]];
+  const TOWER=[[30,0,-24],[30,5,-10],[30,10,6],[30,10,13]];
+  function setRoute(b,pts){b.ai.route=pts.map(p=>new THREE.Vector3(p[0],p[1],p[2]));b.ai.ri=0;b.ai.target.copy(b.ai.route[0]);}
+  function chooseActivity(b){
+    const ai=b.ai,st=b.traits.style;
+    const opts=[['wander',2],['social',st==='social'?4:1.6],['afk',st==='chill'?1.2:.4],['dance',.35]];
+    if(isHangout){opts.push(['parkour',st==='parkour'?4:.9],['tower',st==='explorer'?3:.9],['bench',st==='chill'?3:.8]);
+      if(!tagGame&&bots().filter(x=>!x.ai.leaving&&!x.ai.follow).length>=3)opts.push(['tag',st==='tagger'?3:.5]);}
+    let x=Math.random()*opts.reduce((a,o)=>a+o[1],0),act='wander';for(const o of opts){x-=o[1];if(x<0){act=o[0];break;}}
+    ai.act=act;ai.route=null;ai.state='walk';ai.t=rand(8,14);
+    if(act==='wander')wanderTarget(ai.target);
+    else if(act==='social'){const others=bots().filter(x=>x!==b&&!x.ai.leaving);const o=Math.random()<.5||!others.length?me:pick(others);const a=rand(0,6.28),d=rand(4,8);ai.target.set(o.pos.x+Math.cos(a)*d,0,o.pos.z+Math.sin(a)*d);if(o===me&&Math.random()<.3)later(()=>chars.includes(b)&&b.say(pick(['hey '+me.name,'wsg '+me.name,'what u doing','hiii'])),1500,4000);}
+    else if(act==='afk'){ai.state='afk';ai.t=rand(15,35);if(Math.random()<.5)b.say(pick(['brb','afk','brb 1 sec']));}
+    else if(act==='dance'){b.spin=2.5;ai.state='idle';ai.t=3;}
+    else if(act==='parkour'){setRoute(b,PARKOUR);ai.t=10;}
+    else if(act==='tower'){setRoute(b,TOWER);ai.t=12;}
+    else if(act==='bench'){ai.target.set(-22+rand(-3,3),2,pick([22,30]));}
+    else if(act==='tag'){startTag(b,false);ai.state='idle';ai.t=1;}
+  }
+  let tagGame=null;
+  function startTag(b,withMe){
+    const free=bots().filter(x=>x!==b&&!x.ai.leaving&&!x.ai.follow&&!x.dead).sort(()=>Math.random()-.5);
+    const ps=[b,...free.slice(0,Math.min(free.length,Math.floor(rand(2,4))))];
+    if(withMe)ps.push(me);
+    if(ps.length<2)return;
+    tagGame={players:ps,it:b,until:playTime+rand(70,120),cool:3};
+    b.say(pick(['TAG im it!','tag! im it','ok tag game, im it','who wants tag? im it']));
+    ps.slice(1).forEach(p=>{if(p.isBot){p.sitting=false;p.ai.state='walk';p.ai.route=null;later(()=>chars.includes(p)&&p.say(pick(['im in','ok!','me!','run!!','not it'])),300,1800);}});
+    if(!withMe&&me.pos.distanceTo(b.pos)<80)T(()=>{if(tagGame)sys('A tag game started! Say "tag" in chat to join.');},2500);
+  }
+  function tagHit(a,v){
+    tagGame.it=v;tagGame.cool=2;SFX.click();
+    if(a.isBot&&chars.includes(a))a.say(pick(['ur it!','tag ur it','got u','haha ur it']));
+    if(v===me)toast("You're it!");else if(Math.random()<.6)T(()=>chars.includes(v)&&v.say(pick(['nooo','aw man','ok im coming for u','not fair lol'])),700);
+  }
+  function updateTag(dt){
+    tagGame.cool-=dt;
+    tagGame.players=tagGame.players.filter(p=>chars.includes(p));
+    if(!tagGame.players.includes(tagGame.it)&&tagGame.players.length)tagGame.it=pick(tagGame.players);
+    if(tagGame.players.length<2||playTime>tagGame.until){
+      const ps=tagGame.players;tagGame=null;
+      ps.filter(p=>p.isBot).slice(0,2).forEach(p=>sayLater(p,['gg tag was fun','gg','ok im tired lol','that was fun']));
+      if(ps.includes(me))sys('The tag game ended.');
+      return;
+    }
+    if(tagGame.it===me&&tagGame.cool<=0)for(const p of tagGame.players)if(p!==me&&!p.dead&&p.pos.distanceTo(me.pos)<3.2){tagHit(me,p);break;}
+  }
+  function creditVisit(){
+    const u=A.users[place.creator];place.visits=(place.visits||0)+1;
+    if(u){if(!u.save)u.save=freshSave(place.creator);u.save.studs+=1;if(place.creator===cur())data=u.save;}
+    if(A.places[place.id])A.places[place.id].visits=place.visits;
+    saveAll();updateHdr();
   }
   // population: AI players are on their own schedules. The ones "playing" this place are already here; others hop on and off over time.
   const jf=joinFriend;joinFriend=null;
@@ -1401,7 +1502,7 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
     if(!near.length||Math.random()<.45)return;
     aiConverse([pick(near)],null);
   },15000);
-  every(()=>{data.played++;addStuds(1);},60000);
+  every(()=>{data.played++;save();},60000);
 
   // ---- loop ----
   const clock=new THREE.Clock();const v=new THREE.Vector3();const pdir=new THREE.Vector3();const pv=new THREE.Vector3();
@@ -1431,6 +1532,8 @@ Reply with only JSON: {"replies":[{"name":"player name","text":"their message","
         if(d.life!==Infinity){d.life-=dt;if(d.life<=0){scene.remove(d.m);d.m.geometry.dispose();world.removeBody(d.b);dyn.splice(i,1);}}
         else if(d.b.position.y<-60){d.b.position.y=-1000;d.b.sleep&&d.b.sleep();}}
     }
+    for(const c of chars)if(c.ff){c.ff.t-=dt;const on=c.ff.t>0&&!c.dead;c.ff.g.visible=on&&(c.ff.t>1.2||Math.floor(c.ff.t*10)%2===0);if(on){c.ff.g.position.set(c.pos.x,c.pos.y+2.7,c.pos.z);c.ff.g.children[1].rotation.y+=dt*1.6;c.ff.g.children[1].rotation.x=Math.sin(playTime*1.3)*.3;c.ff.g.children[0].material.opacity=.13+Math.sin(playTime*6)*.04;}}
+    if(tagGame)updateTag(dt);
     for(let i=debris.length-1;i>=0;i--){const p=debris[i];p.t-=dt;p.v.y-=GRAV*.6*dt;p.m.position.addScaledVector(p.v,dt);p.m.rotation.x+=p.r.x*dt;p.m.rotation.y+=p.r.y*dt;if(p.t<=0){scene.remove(p.m);p.m.geometry.dispose();debris.splice(i,1);}}
     const tgt=v.copy(me.pos);tgt.y+=4.5;
     camera.position.set(tgt.x+Math.sin(camYaw)*Math.cos(camPitch)*camDist,tgt.y+Math.sin(camPitch)*camDist,tgt.z+Math.cos(camYaw)*Math.cos(camPitch)*camDist);
